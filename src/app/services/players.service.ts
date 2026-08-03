@@ -30,7 +30,7 @@ export class PlayersService {
       .get(`${this.baseUrl}/teams?search=${name}`, {
         headers: this.headers,
       })
-      .pipe(catchError(() => of(getOfflineTeamResponse(name))));
+      .pipe(catchError(() => of({ ...getOfflineTeamResponse(name), __source: 'offline' })));
   }
 
   getPlayers(teamId: number) {
@@ -43,7 +43,7 @@ export class PlayersService {
         headers: this.headers,
       })
       .pipe(
-        catchError(() => of(getOfflineSquadResponse(teamId))),
+        catchError(() => of({ ...getOfflineSquadResponse(teamId), __source: 'offline' })),
         shareReplay(1),
       );
 
@@ -62,7 +62,7 @@ export class PlayersService {
         headers: this.headers,
       })
       .pipe(
-        catchError(() => of(getOfflineCoachResponse())),
+        catchError(() => of({ ...getOfflineCoachResponse(), __source: 'offline' })),
         shareReplay(1),
       );
 
@@ -81,7 +81,7 @@ export class PlayersService {
         headers: this.headers,
       })
       .pipe(
-        catchError(() => of(getOfflinePlayerStatsResponse())),
+        catchError(() => of({ ...getOfflinePlayerStatsResponse(), __source: 'offline' })),
         shareReplay(1),
       );
 

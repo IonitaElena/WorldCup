@@ -8,4 +8,6 @@ import { MapComponent } from '../../shared/components/map/map-component';
   templateUrl: './harta.component.html',
   styleUrl: './harta.component.css',
 })
-export class HartaComponent {}
+export class HartaComponent {
+  // tot ce trebuia sa scriu aici e in componenta map, ups:((
+}

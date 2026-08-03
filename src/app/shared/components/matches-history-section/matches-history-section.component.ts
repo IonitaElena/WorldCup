@@ -66,15 +66,15 @@ export class MatchesHistorySectionComponent implements OnChanges {
       case 'r32':
         return 'Turul 2';
       case 'r16':
-        return 'Optimi de finală';
+        return 'Optimi de finala';
       case 'qf':
-        return 'Sferturi de finală';
+        return 'Sferturi de finala';
       case 'sf':
         return 'Semifinale';
       case 'third':
-        return 'Finala mică';
+        return 'Finala mica';
       case 'final':
-        return 'Finală';
+        return 'Finala';
       default:
         return '';
     }

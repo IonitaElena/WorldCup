@@ -32,7 +32,7 @@ const offlineTeams: OfflineTeam[] = [
   { id: '5', name_en: 'England', iso2: 'gb-eng', flag: flagPath('eng') },
   { id: '6', name_en: 'Morocco', iso2: 'ma', flag: flagPath('ma') },
   { id: '7', name_en: 'Norway', iso2: 'no', flag: flagPath('no') },
-  { id: '8', name_en: 'Switzerland', iso2: 'ch', flag: flagPath('ch') },
+  { id: '8', name_en: 'Switzerland', iso2: 'ch', flag: flagPath('sw') },
 ];
 
 const makeMatch = (

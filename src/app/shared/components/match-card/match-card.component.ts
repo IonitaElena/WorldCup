@@ -55,10 +55,10 @@ export class MatchCardComponent {
         return 'Semifinale';
 
       case 'third':
-        return 'Finala mică';
+        return 'Finala mica';
 
       case 'final':
-        return 'Finală';
+        return 'Finala';
 
       default:
         return type;
