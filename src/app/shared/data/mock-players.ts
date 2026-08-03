@@ -32,7 +32,7 @@ export const MOCK_PLAYERS = [
     team: 'England',
     position: 'Midfielder',
     age: 22,
-    photo: 'https://media.api-sports.io/football/players/1005.png',
+    photo: 'https://media.api-sports.io/football/players/129718.png',
   },
 
   {
@@ -50,7 +50,7 @@ export const MOCK_PLAYERS = [
     team: 'Spain',
     position: 'Midfielder',
     age: 29,
-    photo: 'https://media.api-sports.io/football/players/277.png',
+    photo: 'https://media.api-sports.io/football/players/44.png',
   },
 
   {
@@ -59,6 +59,6 @@ export const MOCK_PLAYERS = [
     team: 'Argentina',
     position: 'Goalkeeper',
     age: 33,
-    photo: 'https://media.api-sports.io/football/players/1431.png',
+    photo: 'https://media.api-sports.io/football/players/19599.png',
   },
 ];
