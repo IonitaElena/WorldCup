@@ -36,6 +36,8 @@ Pagina principala ofera o imagine de ansamblu asupra competitiei si contine:
 - informatii generale despre turneu;
 - carduri interactive pentru fiecare meci.
 
+<img src="public/screenshots/home.png" width="900">
+
 ## Faza eliminatorie
 
 Modul dedicat fazei eliminatorii afiseaza competitia sub forma unui **bracket**.
@@ -74,6 +76,8 @@ Pentru fiecare echipa sunt prezentate:
 - goluri marcate si primite;
 - punctajul acumulat.
 
+<img src="public/screenshots/clasament.png" width="900">
+
 ## Istoric meciuri
 
 Aceasta sectiune permite consultarea tuturor meciurilor disputate.
@@ -88,6 +92,8 @@ Pentru fiecare meci sunt afisate:
 - echipele;
 - scorul final;
 - data la care s-a jucat.
+
+<img src="public/screenshots/istoric.png" width="900">
 
 ## Harta echipelor participante
 
@@ -107,6 +113,9 @@ In cadrul ferestrei sunt prezentate:
 - lotul de jucatori;
 - informatii suplimentare despre echipa.
 
+<img src="public/screenshots/harta.png" width="900">
+<img src="public/screenshots/detalii.png" width="900">
+
 ## Fantasy League
 
 Utilizatorul isi poate crea propria echipa Fantasy.
@@ -118,6 +127,8 @@ Functionalitatile disponibile includ:
 - selectarea intervalului de meciuri;
 - alegerea jucatorilor;
 - organizarea echipei prin mecanism de **Drag & Drop**.
+
+<img src="public/screenshots/fantasy.png" width="900">
 
 ## Structura principala a proiectului
 
