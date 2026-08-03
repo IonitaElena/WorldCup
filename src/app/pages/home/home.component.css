@@ -1,0 +1,124 @@
+.home {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.home h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.home p {
+  font-size: 20px;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: #666;
+}
+
+.header {
+  display: flex;
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
+
+.header h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.matches-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.matches {
+  width: 60%;
+  margin: 0px auto;
+  height: 30px;
+}
+
+.match-card {
+  margin-bottom: 10px;
+  width: 80%;
+  padding: 15px;
+}
+
+.match-date {
+  border-left: 1px solid gray;
+  padding-left: 15px;
+  margin-left: 20px;
+  min-width: 110px;
+  text-align: center;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.match-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+h3 {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.team-row {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  width: 220px;
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+.teams {
+  flex: 1;
+}
+
+.team-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.tournament-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+
+  margin-top: 35px;
+  margin-bottom: 30px;
+}
+
+.world-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.tournament-info h1 {
+  margin: 0;
+  color: black;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.tournament-info p {
+  margin-top: 20px;
+  color: #1f1919;
+  font-size: 18px;
+}

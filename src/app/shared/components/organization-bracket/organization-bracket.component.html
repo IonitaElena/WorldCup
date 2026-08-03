@@ -1,0 +1,5 @@
+<p-organization-chart [value]="data">
+  <ng-template #node let-node>
+    <app-knockout-match-card [match]="node.data"> </app-knockout-match-card>
+  </ng-template>
+</p-organization-chart>

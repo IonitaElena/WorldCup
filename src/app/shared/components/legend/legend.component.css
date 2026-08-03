@@ -1,0 +1,46 @@
+.legend {
+  margin-top: 32px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  gap: 64px;
+  flex-wrap: wrap;
+}
+
+.legend-section h3 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.qualified-box {
+  width: 18px;
+  height: 18px;
+  background: #f0fff4;
+  border: 1px solid #c8e6c9;
+  border-radius: 4px;
+}
+
+.win {
+  color: #4caf50;
+}
+
+.draw {
+  color: #ff9800;
+}
+
+.lose {
+  color: #f44336;
+}
+
+.none {
+  color: #bdbdbd;
+}

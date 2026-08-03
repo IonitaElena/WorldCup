@@ -1,0 +1,40 @@
+<div class="window" *ngIf="data">
+  <button class="close-btn" (click)="close.emit()">✕</button>
+  <div class="header">
+    <img [src]="data.team.flag" [alt]="data.team.name_en" />
+
+    <h2>
+      {{ data.team.name_en }}
+    </h2>
+  </div>
+
+  <hr />
+
+  <h3>Antrenor</h3>
+
+  <div class="coach" *ngIf="data.coach?.response?.length">
+    <img [src]="data.coach.response[0].photo" [alt]="data.coach.response[0].name" />
+
+    <div>
+      <strong>{{ data.coach.response[0].name }}</strong>
+      <small>{{ data.coach.response[0].age }} ani, </small>
+      <small>
+        {{ data.coach.response[0].nationality }}
+      </small>
+    </div>
+  </div>
+
+  <h3>Jucători</h3>
+  <div
+    class="player"
+    *ngFor="let player of data.players?.response?.[0]?.players"
+    (click)="openPlayer(player)"
+  >
+    <img [src]="player.photo" [alt]="player.name" />
+
+    <div>
+      <strong>{{ player.name }}</strong>
+      <small>Nr. {{ player.number }} • {{ player.position }}</small>
+    </div>
+  </div>
+</div>

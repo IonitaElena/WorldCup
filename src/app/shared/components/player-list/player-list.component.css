@@ -1,0 +1,29 @@
+h2 {
+  color: #0a0a0a;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+}
+
+.player-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: grab;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: 0.2s;
+}
+
+.player-card:hover {
+  transform: translateY(-3px);
+}
+
+.player-card img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+}

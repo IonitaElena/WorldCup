@@ -1,0 +1,62 @@
+.stage-block h2 {
+  background: #3d4145;
+  color: white;
+  padding: 18px 30px;
+  margin: 0 0 0;
+}
+
+.groups-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.group-column {
+  display: block;
+}
+
+.group-name {
+  color: #aaa;
+  padding: 15px 30px;
+}
+
+.match-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-name {
+  color: #aaa;
+  padding: 15px 30px;
+}
+
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* gap: 0 40px; */
+  position: relative;
+}
+
+.matches-grid::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0px;
+  bottom: 0px;
+  width: 1px;
+  background: #666;
+}
+
+.match-column {
+  padding: 18px 20px;
+  border-bottom: 1px solid #555;
+}
+
+.match-column:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+.group-name {
+  color: #aaa;
+  padding-bottom: 10px;
+}

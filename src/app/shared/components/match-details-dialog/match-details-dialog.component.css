@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  padding: 25px;
+  background: #2f2f2f;
+  color: white;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+hr {
+  border-color: #555;
+  margin: 20px;
+}
+h3 {
+  margin-top: 15px;
+  color: #ddd;
+}
+
+h4 {
+  margin-bottom: 5px;
+}
+
+p {
+  margin: 4px 0;
+  color: #ccc;
+}
+
+.info {
+  padding-bottom: 30px;
+}
+.match-dialog .mat-mdc-dialog-container {
+  max-height: 90vh;
+  overflow-y: auto;
+}

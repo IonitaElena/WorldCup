@@ -1,0 +1,70 @@
+.team-form {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+  color: #334155;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  margin-bottom: 15px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.upload-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.upload-btn input {
+  display: none;
+}
+
+.logo-preview {
+  margin: 15px 0;
+}
+
+.logo-preview img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e2e8f0;
+}
+
+.match-interval {
+  display: flex;
+  gap: 20px;
+}
+
+.match-interval div {
+  flex: 1;
+}
+
+@media (max-width: 700px) {
+  .match-interval {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,17 @@
+<h2>Jucători disponibili</h2>
+
+<div
+  cdkDropList
+  id="players"
+  [cdkDropListData]="players"
+  [cdkDropListConnectedTo]="['team']"
+  (cdkDropListDropped)="drop($event)"
+>
+  <div *ngFor="let player of players" cdkDrag class="player-card">
+    <img [src]="player.photo" alt="{{ player.name }}" width="60" />
+
+    <span>
+      {{ player.name }}
+    </span>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<mat-card class="card" (click)="openDialog()">
+  <div class="header">
+    <span class="date">
+      {{ formatDate(match.local_date) }}
+    </span>
+
+    <span class="status">
+      {{ getStatus() }}
+    </span>
+  </div>
+
+  <div class="team" [class.winner]="isHomeWinner()">
+    <div class="team-name">
+      <span class="fi fi-{{ getFlag(match.home_team_name_en) }}"></span>
+      {{ match.home_team_name_en }}
+    </div>
+
+    <div class="score">
+      <strong>
+        {{ match.home_score }}
+
+        <span *ngIf="match.home_penalty_score && match.home_penalty_score !== 'null'">
+          ({{ match.home_penalty_score }})
+        </span>
+      </strong>
+
+      <span class="arrow" *ngIf="isHomeWinner()"> ◀ </span>
+    </div>
+  </div>
+
+  <div class="team" [class.winner]="isAwayWinner()">
+    <div class="team-name">
+      <span class="fi fi-{{ getFlag(match.away_team_name_en) }}"></span>
+      {{ match.away_team_name_en }}
+    </div>
+
+    <div class="score">
+      <strong>
+        {{ match.away_score }}
+
+        <span *ngIf="match.away_penalty_score && match.away_penalty_score !== 'null'">
+          ({{ match.away_penalty_score }})
+        </span>
+      </strong>
+
+      <span class="arrow" *ngIf="isAwayWinner()"> ◀ </span>
+    </div>
+  </div></mat-card
+>

@@ -1,0 +1,140 @@
+.window {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 360px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid #ececec;
+  z-index: 100;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header img {
+  width: 60px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+hr {
+  margin: 18px 0;
+  border: none;
+  border-top: 1px solid #ececec;
+}
+
+h3 {
+  margin: 16px 0 10px;
+  color: #1d4ed8;
+  font-size: 17px;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: 0.2s;
+}
+
+.player:hover {
+  background: #eef4ff;
+  transform: translateX(3px);
+}
+
+.player img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.player strong {
+  display: block;
+  font-size: 15px;
+}
+
+.player small {
+  color: #666;
+  font-size: 13px;
+}
+
+p {
+  margin: 0;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.coach {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  margin-bottom: 15px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.coach img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.coach strong {
+  display: block;
+}
+
+.coach small {
+  color: #666;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4f6;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  background: #e5e7eb;
+}

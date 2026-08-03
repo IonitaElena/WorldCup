@@ -1,0 +1,128 @@
+<mat-card class="group-card">
+  <mat-card-header>
+    <mat-card-title> Grupa {{ group.name }} </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource">
+      <!-- Rank -->
+      <ng-container matColumnDef="rank">
+        <th mat-header-cell *matHeaderCellDef>Echipă</th>
+
+        <td mat-cell *matCellDef="let team; let i = index">
+          <span class="rank">
+            {{ i + 1 }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Team -->
+      <ng-container matColumnDef="team">
+        <th mat-header-cell *matHeaderCellDef></th>
+
+        <td mat-cell *matCellDef="let team">
+          <div class="team">
+            <span *ngIf="team.countryCode" class="fi" [ngClass]="'fi-' + team.countryCode"> </span>
+
+            <span class="team-name">
+              {{ team.teamName || 'Team ' + team.team_id }}
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Meciuri jucate -->
+      <ng-container matColumnDef="mp">
+        <th mat-header-cell *matHeaderCellDef>MJ</th>
+
+        <td mat-cell *matCellDef="let team">
+          {{ team.mp }}
+        </td>
+      </ng-container>
+
+      <!-- Victorii -->
+      <ng-container matColumnDef="w">
+        <th mat-header-cell *matHeaderCellDef>V</th>
+
+        <td mat-cell *matCellDef="let team">
+          {{ team.w }}
+        </td>
+      </ng-container>
+
+      <!-- Egaluri -->
+      <ng-container matColumnDef="d">
+        <th mat-header-cell *matHeaderCellDef>E</th>
+
+        <td mat-cell *matCellDef="let team">
+          {{ team.d }}
+        </td>
+      </ng-container>
+
+      <!-- Infrangeri -->
+      <ng-container matColumnDef="l">
+        <th mat-header-cell *matHeaderCellDef>Î</th>
+
+        <td mat-cell *matCellDef="let team">
+          {{ team.l }}
+        </td>
+      </ng-container>
+
+      <!-- Goluri marcate -->
+      <ng-container matColumnDef="gf">
+        <th mat-header-cell *matHeaderCellDef>GM</th>
+
+        <td mat-cell *matCellDef="let team">
+          {{ team.gf }}
+        </td>
+      </ng-container>
+
+      <!-- Goluri primite -->
+      <ng-container matColumnDef="ga">
+        <th mat-header-cell *matHeaderCellDef>GP</th>
+
+        <td mat-cell *matCellDef="let team">
+          {{ team.ga }}
+        </td>
+      </ng-container>
+
+      <!-- Diferenta de Goluri -->
+      <ng-container matColumnDef="gd">
+        <th mat-header-cell *matHeaderCellDef>DG</th>
+
+        <td mat-cell *matCellDef="let team">
+          {{ team.gd }}
+        </td>
+      </ng-container>
+
+      <!-- Puncte -->
+      <ng-container matColumnDef="pts">
+        <th mat-header-cell *matHeaderCellDef>Pct</th>
+
+        <td mat-cell *matCellDef="let team">
+          <strong>
+            {{ team.pts }}
+          </strong>
+        </td>
+      </ng-container>
+
+      <!-- Ultimele 5 -->
+      <ng-container matColumnDef="form">
+        <th mat-header-cell *matHeaderCellDef>Ultimele 5</th>
+
+        <td mat-cell *matCellDef="let team">
+          <app-last-five [matches]="team.lastFive || []"> </app-last-five>
+        </td>
+      </ng-container>
+
+      <!-- Header -->
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+
+      <!-- Rows -->
+      <tr
+        mat-row
+        *matRowDef="let row; columns: columns; let i = index"
+        [class.qualified]="i < 2"
+      ></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

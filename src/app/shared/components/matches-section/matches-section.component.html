@@ -1,0 +1,16 @@
+<section class="matches">
+  <div class="header">
+    <h2>{{ title }}</h2>
+  </div>
+
+  <div class="matches-grid">
+    <app-match-card *ngFor="let match of matches" [match]="match"> </app-match-card>
+  </div>
+  <div class="bottom-row">
+    <span class="timezone"> Toate orele corespund fusului orar: Ora Europei Centrale </span>
+
+    <button mat-raised-button color="primary" routerLink="/istoric-meciuri" class="program-btn">
+      Programul complet al meciurilor >
+    </button>
+  </div>
+</section>

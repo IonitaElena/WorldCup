@@ -1,0 +1,9 @@
+.bracket {
+  display: flex;
+  align-items: flex-start;
+  gap: 90px;
+  overflow-x: auto;
+  padding: 40px;
+  min-width: max-content;
+  position: relative;
+}

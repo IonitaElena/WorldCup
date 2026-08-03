@@ -1,0 +1,77 @@
+<div class="fantasy-page">
+  <h1>Fantasy League</h1>
+
+  <app-team-form [team]="team"></app-team-form>
+
+  <div class="filters">
+    <div class="filter-header">
+      <h2>Filtru jucatori</h2>
+    </div>
+
+    <div class="filter-row">
+      <div class="filter-item">
+        <label>Tip competitie</label>
+
+        <select [(ngModel)]="selectedType" (change)="filterLeague()">
+          <option value="">Toate</option>
+
+          <option value="League">Ligi</option>
+
+          <option value="Cup">Cupe</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>Tara</label>
+
+        <select [(ngModel)]="selectedCountry" (change)="filterLeague()">
+          <option value="">Toate tarile</option>
+
+          <option *ngFor="let c of countries" [value]="c.name">
+            {{ c.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-item league">
+        <label>Competitie</label>
+
+        <select [(ngModel)]="selectedLeague">
+          <option value="">Alege liga</option>
+
+          <option *ngFor="let l of filteredLeagues" [value]="l.league.id">
+            {{ l.league.name }}
+            -
+            {{ l.country.name }}
+          </option>
+        </select>
+      </div>
+
+      <button class="search-btn" (click)="search()">Cauta</button>
+    </div>
+
+    <div class="player-search-box">
+      <span>Cauta jucator </span>
+
+      <input
+        class="player-search"
+        type="text"
+        placeholder="Ex: Messi, Ronaldo..."
+        [(ngModel)]="searchPlayer"
+        (input)="filterPlayers()"
+      />
+    </div>
+  </div>
+
+  <div class="fantasy-container">
+    <app-player-list [players]="filteredPlayers" (dropPlayer)="dropPlayer($event)">
+    </app-player-list>
+
+    <app-selected-team [selectedPlayers]="selectedPlayers" (dropPlayer)="dropPlayer($event)">
+    </app-selected-team>
+  </div>
+
+  <div class="buttons">
+    <button class="save-btn" (click)="saveTeam()">Salveaza echipa</button>
+  </div>
+</div>

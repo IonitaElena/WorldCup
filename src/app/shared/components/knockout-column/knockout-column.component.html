@@ -1,0 +1,8 @@
+<div class="column">
+  <h2>{{ title }}</h2>
+
+  <div class="matches">
+    <app-knockout-match-card *ngFor="let match of matches" [match]="match">
+    </app-knockout-match-card>
+  </div>
+</div>

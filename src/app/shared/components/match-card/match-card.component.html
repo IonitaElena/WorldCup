@@ -1,0 +1,57 @@
+<mat-card class="match-card">
+  <div class="stage">
+    {{ getStage(match.type) }}
+  </div>
+
+  <div class="match-content">
+    <div class="teams">
+      <div class="team-row">
+        <div class="team-info">
+          <!-- <img [src]="'flags/' + getFlag(match.home_team_name_en) + '.png'" class="flag" /> -->
+          <span class="fi fi-{{ getFlag(match.home_team_name_en) }} flag"> </span>
+
+          <span class="team-name" [class.winner]="+match.home_score > +match.away_score">
+            {{ match.home_team_name_en }}
+          </span>
+        </div>
+
+        <div class="score-box">
+          <strong [class.winner]="+match.home_score > +match.away_score">
+            {{ match.home_score }}
+          </strong>
+
+          <span class="winner-arrow">
+            {{ +match.home_score > +match.away_score ? '◀' : '' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="team-row">
+        <div class="team-info">
+          <!-- <img [src]="'flags/' + getFlag(match.away_team_name_en) + '.png'" class="flag" /> -->
+          <span class="fi fi-{{ getFlag(match.away_team_name_en) }} flag"> </span>
+          <span class="team-name" [class.winner]="+match.away_score > +match.home_score">
+            {{ match.away_team_name_en }}
+          </span>
+        </div>
+
+        <div class="score-box">
+          <strong [class.winner]="+match.away_score > +match.home_score">
+            {{ match.away_score }}
+          </strong>
+
+          <span class="winner-arrow">
+            {{ +match.away_score > +match.home_score ? '◀' : '' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="match-date">
+      <div>{{ formatDate(match.local_date, match.finished).day }}</div>
+      <div>{{ formatDate(match.local_date, match.finished).time }}</div>
+    </div>
+  </div>
+</mat-card>

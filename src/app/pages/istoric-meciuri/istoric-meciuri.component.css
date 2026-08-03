@@ -1,0 +1,46 @@
+.istoric {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.istoric h1 {
+  font-size: 48px;
+  margin-bottom: 40px;
+}
+
+.istoric p {
+  font-size: 20px;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: #666;
+}
+
+.matches {
+  width: 80%;
+  margin: 40px auto;
+  height: 50px;
+}
+
+.match-card {
+  margin-bottom: 20px;
+}
+
+.history {
+  width: 950px;
+  margin: 40px auto;
+}
+
+.history h1 {
+  color: white;
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.match-day h2 {
+  color: white;
+  font-size: 22px;
+  margin-top: 35px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 10px;
+}

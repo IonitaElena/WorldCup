@@ -1,0 +1,33 @@
+<div class="team-form">
+  <h2>Creeaza echipa</h2>
+
+  <label>Nume echipa</label>
+
+  <input type="text" placeholder="Ex: FC Bucuresti" [(ngModel)]="team.name" />
+
+  <label>Sigla echipei</label>
+
+  <label class="upload-btn">
+    Alege sigla
+
+    <input type="file" accept="image/*" (change)="upload($event)" />
+  </label>
+
+  <div class="logo-preview" *ngIf="team.logo">
+    <img [src]="team.logo" alt="Sigla echipei" />
+  </div>
+
+  <div class="match-interval">
+    <div>
+      <label>Data început</label>
+
+      <input type="date" [(ngModel)]="team.startDate" />
+    </div>
+
+    <div>
+      <label>Data sfarsit</label>
+
+      <input type="date" [(ngModel)]="team.endDate" />
+    </div>
+  </div>
+</div>

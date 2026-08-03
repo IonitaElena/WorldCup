@@ -1,0 +1,105 @@
+<div class="match-header">
+  <div class="team">
+    <span>{{ match.home_team_name_en }}</span>
+  </div>
+
+  <div class="score">
+    <strong>
+      {{ match.home_score }}
+
+      <small *ngIf="hasPenalty()"> ({{ match.home_penalty_score }}) </small>
+    </strong>
+
+    <span class="dash"> - </span>
+
+    <strong>
+      {{ match.away_score }}
+
+      <small *ngIf="hasPenalty()"> ({{ match.away_penalty_score }}) </small>
+    </strong>
+  </div>
+
+  <div class="team">
+    <span>{{ match.away_team_name_en }}</span>
+  </div>
+</div>
+
+<hr />
+
+<h3>Marcatori</h3>
+
+<div class="scorers">
+  <div>
+    <h4>{{ match.home_team_name_en }}</h4>
+
+    <p *ngFor="let scorer of parsePlayers(match.home_scorers)">⚽ {{ scorer }}</p>
+  </div>
+
+  <div>
+    <h4>{{ match.away_team_name_en }}</h4>
+
+    <p *ngFor="let scorer of parsePlayers(match.away_scorers)">⚽ {{ scorer }}</p>
+  </div>
+</div>
+
+<hr />
+
+<div *ngIf="hasPenalty()">
+  <h3>Lovituri de departajare</h3>
+
+  <div class="penalty-score">
+    <strong>
+      {{ match.home_team_name_en }}
+    </strong>
+
+    <span>
+      {{ match.home_penalty_score }}
+      -
+      {{ match.away_penalty_score }}
+    </span>
+
+    <strong>
+      {{ match.away_team_name_en }}
+    </strong>
+  </div>
+
+  <h4>Marcatori penalty</h4>
+
+  <p *ngFor="let player of parsePlayers(match.home_penalty_scorers)">
+    {{ match.home_team_name_en }}: ✅ {{ player }}
+  </p>
+
+  <p *ngFor="let player of parsePlayers(match.away_penalty_scorers)">
+    {{ match.away_team_name_en }}: ✅ {{ player }}
+  </p>
+
+  <h4>Ratati penalty</h4>
+
+  <p *ngFor="let player of parsePlayers(match.home_penalty_misses)">
+    {{ match.home_team_name_en }}: ❌ {{ player }}
+  </p>
+
+  <p *ngFor="let player of parsePlayers(match.away_penalty_misses)">
+    {{ match.away_team_name_en }}: ❌ {{ player }}
+  </p>
+</div>
+
+<hr />
+
+<div class="info">
+  <p>{{ match.local_date }}</p>
+
+  <p>Match group: {{ match.group }}</p>
+
+  <h3>Stadion</h3>
+
+  <div *ngIf="stadium">
+    <p>
+      {{ stadium.name_en }}
+    </p>
+
+    <p>📍 {{ stadium.city_en }}, {{ stadium.country_en }}</p>
+
+    <p>👥 {{ stadium.capacity | number }}</p>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.clasament {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.clasament h1 {
+  font-size: 48px;
+  margin-bottom: 40px;
+}
+
+.clasament p {
+  font-size: 20px;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: #666;
+}

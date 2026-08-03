@@ -1,0 +1,81 @@
+.column {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+h2 {
+  color: black;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 22px;
+}
+
+.matches {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+app-knockout-match-card {
+  display: block;
+  position: relative;
+}
+
+/* R32 */
+
+.column:nth-child(1) app-knockout-match-card {
+  margin-bottom: 30px;
+}
+
+/* Optimi */
+
+.column:nth-child(2) {
+  margin-top: 70px;
+}
+
+.column:nth-child(2) app-knockout-match-card {
+  margin-bottom: 105px;
+}
+
+/* Sferturi */
+
+.column:nth-child(3) {
+  margin-top: 170px;
+}
+
+.column:nth-child(3) app-knockout-match-card {
+  margin-bottom: 255px;
+}
+
+/* Semifinale */
+
+.column:nth-child(4) {
+  margin-top: 340px;
+}
+
+.column:nth-child(4) app-knockout-match-card {
+  margin-bottom: 590px;
+}
+
+/* Finala */
+
+.column:nth-child(5) {
+  margin-top: 640px;
+}
+
+.column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.column:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  width: 35px;
+  height: 2px;
+  background: #777;
+}

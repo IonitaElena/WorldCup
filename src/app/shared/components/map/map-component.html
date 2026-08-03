@@ -1,0 +1,38 @@
+<mgl-map class="map" [mapStyle]="mapStyle" [center]="center" [zoom]="zoom">
+  <mgl-control mglNavigation position="top-right" [showCompass]="true" [showZoom]="true">
+  </mgl-control>
+
+  <mgl-marker *ngFor="let team of teams" [lngLat]="[team.lng, team.lat]">
+    <app-team-marker
+      [team]="team"
+      (hover)="showTooltip($event)"
+      (leave)="hideTooltip()"
+      (clickTeam)="openTeam($event)"
+    >
+    </app-team-marker>
+  </mgl-marker>
+
+  ->
+  <mgl-popup
+    *ngIf="hoveredTeam"
+    [lngLat]="[hoveredTeam.lng, hoveredTeam.lat]"
+    [closeButton]="false"
+  >
+    {{ hoveredTeam.name_en }}
+  </mgl-popup>
+</mgl-map>
+
+<app-team-details
+  *ngIf="teamDetails"
+  [data]="teamDetails"
+  (close)="closeDetails()"
+  (playerClick)="openPlayer($event)"
+>
+</app-team-details>
+
+<app-player-details
+  *ngIf="selectedPlayer"
+  [player]="selectedPlayer"
+  (close)="selectedPlayer = null"
+>
+</app-player-details>

@@ -1,0 +1,31 @@
+.form {
+  display: flex;
+  gap: 6px;
+
+  mat-icon {
+    font-size: 22px;
+  }
+
+  .win {
+    color: #16a34a;
+  }
+
+  .draw {
+    color: #f59e0b;
+  }
+
+  .lose {
+    color: #dc2626;
+  }
+
+  .none {
+    color: #9ca3af;
+  }
+}
+.last-five {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  min-width: 110px;
+}

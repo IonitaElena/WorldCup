@@ -1,0 +1,65 @@
+.matches {
+  width: 950px;
+  margin: 40px auto;
+  background: #2d2d2d;
+  border-radius: 22px;
+  padding: 25px;
+}
+
+.header {
+  border-bottom: 1px solid #d8d8d8;
+  margin-bottom: 25px;
+}
+
+.header h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: 34px;
+  color: white;
+}
+
+.matches-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 40px;
+  position: relative;
+}
+
+.matches-grid::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #666;
+}
+
+app-match-card {
+  display: block;
+  padding: 18px 20px;
+  border-bottom: 1px solid #555;
+}
+
+app-match-card:nth-child(odd) {
+  padding-right: 25px;
+}
+
+app-match-card:nth-child(even) {
+  padding-left: 25px;
+}
+
+.bottom-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.timezone {
+  color: #bbb;
+  font-size: 20px;
+  white-space: nowrap;
+}

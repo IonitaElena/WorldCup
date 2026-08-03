@@ -1,0 +1,19 @@
+<div class="stage-block" *ngFor="let stage of groupedMatches">
+  <h2>
+    {{ stage.title }}
+  </h2>
+
+  <div class="matches-grid">
+    <ng-container *ngFor="let group of stage.groups">
+      <ng-container *ngFor="let match of group.matches">
+        <div class="match-column">
+          <div class="group-name" *ngIf="group.groupName">
+            {{ group.groupName }}
+          </div>
+
+          <app-match-card [match]="match"> </app-match-card>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

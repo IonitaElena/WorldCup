@@ -1,0 +1,21 @@
+#bracket {
+  width: 100%;
+  min-height: 800px;
+}
+
+.brackets-viewer .fi {
+  margin-right: 6px;
+  width: 22px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.brackets-viewer .participant {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brackets-viewer .participant .origin {
+  display: none !important;
+}

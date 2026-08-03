@@ -1,0 +1,5 @@
+<div class="form">
+  <mat-icon *ngFor="let match of displayMatches" [ngClass]="getClass(match)" [matTooltip]="match">
+    {{ getIcon(match) }}
+  </mat-icon>
+</div>
