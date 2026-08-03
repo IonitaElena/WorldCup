@@ -14,7 +14,8 @@ import {
 export class FantasyFootballService {
   private url = 'https://v3.football.api-sports.io';
 
-  private apiKey = 'api';
+  private apiKey = '1891c4cf87057e1f78367af068337670';
+  // private apiKey = 'api';
 
   constructor(private http: HttpClient) {}
 
