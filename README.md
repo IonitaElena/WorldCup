@@ -89,8 +89,6 @@ Pentru fiecare meci sunt afisate:
 - scorul final;
 - data la care s-a jucat.
 
----
-
 ## Harta echipelor participante
 
 Aplicatia include o harta interactiva realizata cu **MapLibre/Mapbox**.

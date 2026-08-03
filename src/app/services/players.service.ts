@@ -16,8 +16,7 @@ export class PlayersService {
   private baseUrl = 'https://v3.football.api-sports.io';
 
   private headers = new HttpHeaders({
-    'x-apisports-key': '1891c4cf87057e1f78367af068337670',
-    // 'x-apisports-key': 'API',
+    'x-apisports-key': 'API',
   });
 
   private teamsCache = new Map<string, any>();

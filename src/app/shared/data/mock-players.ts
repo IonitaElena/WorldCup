@@ -23,7 +23,7 @@ export const MOCK_PLAYERS = [
     team: 'Spain',
     position: 'Forward',
     age: 18,
-    photo: 'https://media.api-sports.io/football/players/1189.png',
+    photo: 'https://media.api-sports.io/football/players/386828.png',
   },
 
   {
