@@ -1,6 +1,6 @@
 # Smart Digital World Cup
 
-Aplicatia web Smart Digital World Cup este o solutie interactiva pentru urmarirea competitiei FIFA World Cup 2026, construita cu Angular 22. Scopul proiectului este de a centraliza informatiile despre turneu intr-o interfata moderna, usor de folosit si orientata catre experienta utilizatorului.
+Aplicatia web Smart Digital World Cup este o solutie interactiva pentru urmarirea competitiei FIFA World Cup 2026, construita cu Angular. Scopul proiectului este de a centraliza informatiile despre turneu intr-o interfata moderna si usor de folosit.
 
 ## Ce ofera aplicatia
 
@@ -12,16 +12,6 @@ Aplicatia include mai multe module principale:
 - Istoricul meciurilor si rezultatelor
 - Harta echipelor calificate
 - Sectiunea Fantasy League pentru crearea unei echipe si filtrarea jucatorilor
-
-## Cerinte proiectului
-
-Proiectul a fost gandit ca o platforma digitala pentru suportul urmaririi Campionatului Mondial, cu accent pe:
-
-- prezentarea clara a meciurilor si rezultatelor
-- navigare usoara intre sectiuni
-- experienta interactiva pe desktop si dispozitive mobile
-- integrarea unor componente vizuale moderne, precum harta, bracket si liste de jucatori
-- suport pentru o experienta de tip „fan engagement” prin sectiunea Fantasy League
 
 # Functionalitati principale
 
