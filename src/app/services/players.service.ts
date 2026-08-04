@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, of, shareReplay } from 'rxjs';
+import { environment } from '../environments/environment';
 
 import {
   getOfflineCoachResponse,
@@ -16,7 +17,7 @@ export class PlayersService {
   private baseUrl = 'https://v3.football.api-sports.io';
 
   private headers = new HttpHeaders({
-    'x-apisports-key': 'API',
+    'x-apisports-key': environment.apiSportsKey,
   });
 
   private teamsCache = new Map<string, any>();

@@ -208,6 +208,33 @@ Dupa pornirea serverului, deschideti browserul la adresa:
 http://localhost:4200/
 ```
 
+## Configurarea cheii API
+
+Proiectul utilizează un fișier `environment.ts` pentru configurarea cheii API.
+
+1. Copiați fișierul:
+
+```text
+src/environments/environment.example.ts
+```
+
+în
+
+```text
+src/environments/environment.ts
+```
+
+2. Completați cheia API:
+
+```ts
+export const environment = {
+  production: false,
+  apiSportsKey: 'YOUR_API_KEY_FROM_API_SPORTS',
+};
+```
+
+[API-Football](https://www.api-football.com/)
+
 ## Build pentru productie
 
 ```bash

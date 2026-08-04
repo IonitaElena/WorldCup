@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
+import { environment } from '../environments/environment';
 
 import {
   OFFLINE_COUNTRIES,
@@ -13,7 +14,7 @@ import {
 })
 export class FantasyFootballService {
   private url = 'https://v3.football.api-sports.io';
-  private apiKey = 'api';
+  private apiKey = environment.apiSportsKey;
 
   constructor(private http: HttpClient) {}
 

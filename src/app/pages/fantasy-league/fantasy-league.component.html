@@ -3,6 +3,7 @@
 
   <app-team-form [team]="team"></app-team-form>
 
+  <!-- de aici aici puteam sa fac o alta componenta de fltru sa nu aglomerez -->
   <div class="filters">
     <div class="filter-header">
       <h2>Filtru jucatori</h2>
@@ -62,6 +63,7 @@
       />
     </div>
   </div>
+  <!-- pana aici -->
 
   <div class="fantasy-container">
     <app-player-list [players]="filteredPlayers" (dropPlayer)="dropPlayer($event)">
