@@ -1,7 +1,21 @@
-<section class="clasament">
+<!-- Cod initial -->
+<!-- <section class="clasament">
   <h1>Clasament Grupe</h1>
   <div class="groups">
     <app-group-table *ngFor="let group of groups" [group]="group"> </app-group-table>
   </div>
 </section>
-<app-legend></app-legend>
+<app-legend></app-legend> -->
+
+<!-- Modificari Angular Tips -->
+<main class="clasament">
+  <h1>Clasament Grupe</h1>
+  <section class="groups" aria-label="Tabelele grupelor">
+    @for (group of groups; track group._id) {
+      <app-group-table [group]="group"></app-group-table>
+    }
+  </section>
+</main>
+<aside>
+  <app-legend />
+</aside>

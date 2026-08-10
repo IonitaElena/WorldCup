@@ -63,6 +63,28 @@ h3 {
   transition: 0.2s;
 }
 
+.players {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.players li {
+  margin: 0;
+}
+
+.player {
+  width: 100%;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
 .player:hover {
   background: #eef4ff;
   transform: translateX(3px);

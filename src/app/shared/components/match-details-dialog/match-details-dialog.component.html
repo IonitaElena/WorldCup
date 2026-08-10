@@ -1,13 +1,15 @@
-<div class="match-header">
-  <div class="team">
+<header class="match-header">
+  <section class="team" aria-label="Echipa gazdă">
     <span>{{ match.home_team_name_en }}</span>
-  </div>
+  </section>
 
-  <div class="score">
+  <section class="score" aria-label="Scor meci">
     <strong>
       {{ match.home_score }}
 
-      <small *ngIf="hasPenalty()"> ({{ match.home_penalty_score }}) </small>
+      @if (hasPenalty()) {
+        <small> ({{ match.home_penalty_score }}) </small>
+      }
     </strong>
 
     <span class="dash"> - </span>
@@ -15,91 +17,109 @@
     <strong>
       {{ match.away_score }}
 
-      <small *ngIf="hasPenalty()"> ({{ match.away_penalty_score }}) </small>
+      @if (hasPenalty()) {
+        <small> ({{ match.away_penalty_score }}) </small>
+      }
     </strong>
-  </div>
+  </section>
 
-  <div class="team">
+  <section class="team" aria-label="Echipa oaspete">
     <span>{{ match.away_team_name_en }}</span>
-  </div>
-</div>
+  </section>
+</header>
 
 <hr />
 
 <h3>Marcatori</h3>
 
-<div class="scorers">
-  <div>
-    <h4>{{ match.home_team_name_en }}</h4>
+<section class="scorers" aria-label="Marcatori">
+  <section aria-labelledby="home-scorers-title">
+    <h4 id="home-scorers-title">{{ match.home_team_name_en }}</h4>
 
-    <p *ngFor="let scorer of parsePlayers(match.home_scorers)">⚽ {{ scorer }}</p>
-  </div>
+    <ul>
+      @for (scorer of parsePlayers(match.home_scorers); track $index) {
+        <li>⚽ {{ scorer }}</li>
+      }
+    </ul>
+  </section>
 
-  <div>
-    <h4>{{ match.away_team_name_en }}</h4>
+  <section aria-labelledby="away-scorers-title">
+    <h4 id="away-scorers-title">{{ match.away_team_name_en }}</h4>
 
-    <p *ngFor="let scorer of parsePlayers(match.away_scorers)">⚽ {{ scorer }}</p>
-  </div>
-</div>
-
-<hr />
-
-<div *ngIf="hasPenalty()">
-  <h3>Lovituri de departajare</h3>
-
-  <div class="penalty-score">
-    <strong>
-      {{ match.home_team_name_en }}
-    </strong>
-
-    <span>
-      {{ match.home_penalty_score }}
-      -
-      {{ match.away_penalty_score }}
-    </span>
-
-    <strong>
-      {{ match.away_team_name_en }}
-    </strong>
-  </div>
-
-  <h4>Marcatori penalty</h4>
-
-  <p *ngFor="let player of parsePlayers(match.home_penalty_scorers)">
-    {{ match.home_team_name_en }}: ✅ {{ player }}
-  </p>
-
-  <p *ngFor="let player of parsePlayers(match.away_penalty_scorers)">
-    {{ match.away_team_name_en }}: ✅ {{ player }}
-  </p>
-
-  <h4>Ratati penalty</h4>
-
-  <p *ngFor="let player of parsePlayers(match.home_penalty_misses)">
-    {{ match.home_team_name_en }}: ❌ {{ player }}
-  </p>
-
-  <p *ngFor="let player of parsePlayers(match.away_penalty_misses)">
-    {{ match.away_team_name_en }}: ❌ {{ player }}
-  </p>
-</div>
+    <ul>
+      @for (scorer of parsePlayers(match.away_scorers); track $index) {
+        <li>⚽ {{ scorer }}</li>
+      }
+    </ul>
+  </section>
+</section>
 
 <hr />
 
-<div class="info">
+@if (hasPenalty()) {
+  <section aria-labelledby="penalty-title">
+    <h3 id="penalty-title">Lovituri de departajare</h3>
+
+    <div class="penalty-score">
+      <strong>
+        {{ match.home_team_name_en }}
+      </strong>
+
+      <span>
+        {{ match.home_penalty_score }}
+        -
+        {{ match.away_penalty_score }}
+      </span>
+
+      <strong>
+        {{ match.away_team_name_en }}
+      </strong>
+    </div>
+
+    <h4>Marcatori penalty</h4>
+
+    <ul>
+      @for (player of parsePlayers(match.home_penalty_scorers); track $index) {
+        <li>{{ match.home_team_name_en }}: ✅ {{ player }}</li>
+      }
+
+      @for (player of parsePlayers(match.away_penalty_scorers); track $index) {
+        <li>{{ match.away_team_name_en }}: ✅ {{ player }}</li>
+      }
+    </ul>
+
+    <h4>Ratati penalty</h4>
+
+    <ul>
+      @for (player of parsePlayers(match.home_penalty_misses); track $index) {
+        <li>{{ match.home_team_name_en }}: ❌ {{ player }}</li>
+      }
+
+      @for (player of parsePlayers(match.away_penalty_misses); track $index) {
+        <li>{{ match.away_team_name_en }}: ❌ {{ player }}</li>
+      }
+    </ul>
+  </section>
+}
+
+<hr />
+
+<section class="info" aria-label="Informații meci">
   <p>{{ match.local_date }}</p>
 
   <p>Match group: {{ match.group }}</p>
 
   <h3>Stadion</h3>
 
-  <div *ngIf="stadium">
-    <p>
-      {{ stadium.name_en }}
-    </p>
+  @if (stadium) {
+    <section>
+      <p>
+        {{ stadium.name_en }}
+      </p>
 
-    <p>📍 {{ stadium.city_en }}, {{ stadium.country_en }}</p>
+      <p>📍 {{ stadium.city_en }}, {{ stadium.country_en }}</p>
 
-    <p>👥 {{ stadium.capacity | number }}</p>
-  </div>
-</div>
+      <p>👥 {{ stadium.capacity | number }}</p>
+    </section>
+  }
+</section>

@@ -2,37 +2,39 @@
   <mgl-control mglNavigation position="top-right" [showCompass]="true" [showZoom]="true">
   </mgl-control>
 
-  <mgl-marker *ngFor="let team of teams" [lngLat]="[team.lng, team.lat]">
-    <app-team-marker
-      [team]="team"
-      (hover)="showTooltip($event)"
-      (leave)="hideTooltip()"
-      (clickTeam)="openTeam($event)"
-    >
-    </app-team-marker>
-  </mgl-marker>
+  @for (team of teams; track team.id ?? team.team_id) {
+    <mgl-marker [lngLat]="[team.lng, team.lat]">
+      <app-team-marker
+        [team]="team"
+        (hover)="showTooltip($event)"
+        (leave)="hideTooltip()"
+        (clickTeam)="openTeam($event)"
+      >
+      </app-team-marker>
+    </mgl-marker>
+  }
 
-  ->
-  <mgl-popup
-    *ngIf="hoveredTeam"
-    [lngLat]="[hoveredTeam.lng, hoveredTeam.lat]"
-    [closeButton]="false"
-  >
-    {{ hoveredTeam.name_en }}
-  </mgl-popup>
+  @if (hoveredTeam) {
+    <mgl-popup [lngLat]="[hoveredTeam.lng, hoveredTeam.lat]" [closeButton]="false">
+      {{ hoveredTeam.name_en }}
+    </mgl-popup>
+  }
 </mgl-map>
 
-<app-team-details
-  *ngIf="teamDetails"
-  [data]="teamDetails"
-  (close)="closeDetails()"
-  (playerClick)="openPlayer($event)"
->
-</app-team-details>
+@if (teamDetails) {
+  <aside aria-label="Detalii echipă">
+    <app-team-details
+      [data]="teamDetails"
+      (close)="closeDetails()"
+      (playerClick)="openPlayer($event)"
+    >
+    </app-team-details>
+  </aside>
+}
 
-<app-player-details
-  *ngIf="selectedPlayer"
-  [player]="selectedPlayer"
-  (close)="selectedPlayer = null"
->
-</app-player-details>
+@if (selectedPlayer) {
+  <aside aria-label="Detalii jucător">
+    <app-player-details [player]="selectedPlayer" (close)="selectedPlayer = null">
+    </app-player-details>
+  </aside>
+}

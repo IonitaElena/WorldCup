@@ -1,40 +1,52 @@
-<div class="window" *ngIf="data">
-  <button class="close-btn" (click)="close.emit()">✕</button>
-  <div class="header">
-    <img [src]="data.team.flag" [alt]="data.team.name_en" />
+@if (data) {
+  <aside class="window" aria-label="Detalii echipă">
+    <button class="close-btn" (click)="close.emit()">✕</button>
 
-    <h2>
-      {{ data.team.name_en }}
-    </h2>
-  </div>
+    <header class="header">
+      <img [src]="data.team.flag" [alt]="data.team.name_en" />
 
-  <hr />
+      <h2>
+        {{ data.team.name_en }}
+      </h2>
+    </header>
 
-  <h3>Antrenor</h3>
+    <hr />
 
-  <div class="coach" *ngIf="data.coach?.response?.length">
-    <img [src]="data.coach.response[0].photo" [alt]="data.coach.response[0].name" />
+    <section aria-labelledby="coach-title">
+      <h3 id="coach-title">Antrenor</h3>
 
-    <div>
-      <strong>{{ data.coach.response[0].name }}</strong>
-      <small>{{ data.coach.response[0].age }} ani, </small>
-      <small>
-        {{ data.coach.response[0].nationality }}
-      </small>
-    </div>
-  </div>
+      @if (data.coach?.response?.length) {
+        <article class="coach">
+          <img [src]="data.coach.response[0].photo" [alt]="data.coach.response[0].name" />
 
-  <h3>Jucatori</h3>
-  <div
-    class="player"
-    *ngFor="let player of data.players?.response?.[0]?.players"
-    (click)="openPlayer(player)"
-  >
-    <img [src]="player.photo" [alt]="player.name" />
+          <div>
+            <strong>{{ data.coach.response[0].name }}</strong>
+            <small>{{ data.coach.response[0].age }} ani, </small>
+            <small>
+              {{ data.coach.response[0].nationality }}
+            </small>
+          </div>
+        </article>
+      }
+    </section>
 
-    <div>
-      <strong>{{ player.name }}</strong>
-      <small>Nr. {{ player.number }} • {{ player.position }}</small>
-    </div>
-  </div>
-</div>
+    <section aria-labelledby="players-title">
+      <h3 id="players-title">Jucatori</h3>
+
+      <ul class="players">
+        @for (player of data.players?.response?.[0]?.players; track player.id ?? player.name) {
+          <li>
+            <button class="player" type="button" (click)="openPlayer(player)">
+              <img [src]="player.photo" [alt]="player.name" />
+
+              <div>
+                <strong>{{ player.name }}</strong>
+                <small>Nr. {{ player.number }} • {{ player.position }}</small>
+              </div>
+            </button>
+          </li>
+        }
+      </ul>
+    </section>
+  </aside>
+}

@@ -1,17 +1,21 @@
-<h2>Jucatori disponibili</h2>
+<section aria-labelledby="available-players-title">
+  <h2 id="available-players-title">Jucatori disponibili</h2>
 
-<div
-  cdkDropList
-  id="players"
-  [cdkDropListData]="players"
-  [cdkDropListConnectedTo]="['team']"
-  (cdkDropListDropped)="drop($event)"
->
-  <div *ngFor="let player of players" cdkDrag class="player-card">
-    <img [src]="player.photo" alt="{{ player.name }}" width="60" />
+  <ul
+    cdkDropList
+    id="players"
+    [cdkDropListData]="players"
+    [cdkDropListConnectedTo]="['team']"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for (player of players; track player.id ?? player.name) {
+      <li cdkDrag class="player-card">
+        <img [src]="player.photo" [alt]="player.name" width="60" />
 
-    <span>
-      {{ player.name }}
-    </span>
-  </div>
-</div>
+        <span>
+          {{ player.name }}
+        </span>
+      </li>
+    }
+  </ul>
+</section>

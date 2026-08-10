@@ -1,5 +1,7 @@
-<div class="form">
-  <mat-icon *ngFor="let match of displayMatches" [ngClass]="getClass(match)" [matTooltip]="match">
-    {{ getIcon(match) }}
-  </mat-icon>
-</div>
+<ul class="form" aria-label="Ultimele cinci rezultate">
+  @for (match of displayMatches; track $index) {
+    <li>
+      <mat-icon [ngClass]="getClass(match)" [matTooltip]="match">{{ getIcon(match) }}</mat-icon>
+    </li>
+  }
+</ul>

@@ -8,6 +8,12 @@ h2 {
   font-size: 16px;
 }
 
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 20px;
+}
+
 [cdkDropList] {
   background: white;
   min-height: 300px;

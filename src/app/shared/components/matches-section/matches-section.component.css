@@ -23,6 +23,13 @@
   grid-template-columns: 1fr 1fr;
   gap: 0 40px;
   position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.matches-grid > li {
+  margin: 0;
 }
 
 .matches-grid::before {

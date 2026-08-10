@@ -1,12 +1,12 @@
 <section class="home">
-  <div class="tournament-header">
-    <img src="/world-cup-logo.png" class="world-logo" />
+  <header class="tournament-header">
+    <img src="/world-cup-logo.png" class="world-logo" alt="Sigla Cupei Mondiale FIFA 2026" />
 
-    <div class="tournament-info">
-      <h1>Cupa Mondiala FIFA 2026</h1>
+    <section class="tournament-info" aria-labelledby="tournament-title">
+      <h1 id="tournament-title">Cupa Mondiala FIFA 2026</h1>
       <p>11 iun. 2026 – 19 iul. 2026</p>
-    </div>
-  </div>
+    </section>
+  </header>
 
   <app-matches-section title="Meciuri" [matches]="matches"> </app-matches-section>
 </section>

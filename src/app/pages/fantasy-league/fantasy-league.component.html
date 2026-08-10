@@ -1,79 +1,93 @@
-<div class="fantasy-page">
-  <h1>Fantasy League</h1>
+<main class="fantasy-page">
+  <header>
+    <h1>Fantasy League</h1>
+  </header>
 
   <app-team-form [team]="team"></app-team-form>
 
-  <!-- de aici aici puteam sa fac o alta componenta de fltru sa nu aglomerez -->
-  <div class="filters">
-    <div class="filter-header">
-      <h2>Filtru jucatori</h2>
-    </div>
+  <section class="filters" aria-labelledby="filters-title">
+    <header class="filter-header">
+      <h2 id="filters-title">Filtru jucatori</h2>
+    </header>
 
-    <div class="filter-row">
-      <div class="filter-item">
-        <label>Tip competitie</label>
+    <form class="filter-row" (submit)="$event.preventDefault(); search()">
+      <fieldset class="filter-item">
+        <label for="competition-type">Tip competitie</label>
 
-        <select [(ngModel)]="selectedType" (change)="filterLeague()">
+        <select
+          id="competition-type"
+          [(ngModel)]="selectedType"
+          (change)="filterLeague()"
+          name="selectedType"
+        >
           <option value="">Toate</option>
 
           <option value="League">Ligi</option>
 
           <option value="Cup">Cupe</option>
         </select>
-      </div>
+      </fieldset>
 
-      <div class="filter-item">
-        <label>Tara</label>
+      <fieldset class="filter-item">
+        <label for="country">Tara</label>
 
-        <select [(ngModel)]="selectedCountry" (change)="filterLeague()">
+        <select
+          id="country"
+          [(ngModel)]="selectedCountry"
+          (change)="filterLeague()"
+          name="selectedCountry"
+        >
           <option value="">Toate tarile</option>
 
-          <option *ngFor="let c of countries" [value]="c.name">
-            {{ c.name }}
-          </option>
+          @for (c of countries; track c.name) {
+            <option [value]="c.name">{{ c.name }}</option>
+          }
         </select>
-      </div>
+      </fieldset>
 
-      <div class="filter-item league">
-        <label>Competitie</label>
+      <fieldset class="filter-item league">
+        <label for="league">Competitie</label>
 
-        <select [(ngModel)]="selectedLeague">
+        <select id="league" [(ngModel)]="selectedLeague" name="selectedLeague">
           <option value="">Alege liga</option>
 
-          <option *ngFor="let l of filteredLeagues" [value]="l.league.id">
-            {{ l.league.name }}
-            -
-            {{ l.country.name }}
-          </option>
+          @for (l of filteredLeagues; track l.league.id) {
+            <option [value]="l.league.id">
+              {{ l.league.name }}
+              -
+              {{ l.country.name }}
+            </option>
+          }
         </select>
-      </div>
+      </fieldset>
 
-      <button class="search-btn" (click)="search()">Cauta</button>
-    </div>
+      <button class="search-btn" type="submit">Cauta</button>
+    </form>
 
-    <div class="player-search-box">
-      <span>Cauta jucator </span>
+    <section class="player-search-box" aria-label="Cautare jucator">
+      <label for="player-search">Cauta jucator</label>
 
       <input
+        id="player-search"
         class="player-search"
         type="text"
         placeholder="Ex: Messi, Ronaldo..."
         [(ngModel)]="searchPlayer"
         (input)="filterPlayers()"
+        name="searchPlayer"
       />
-    </div>
-  </div>
-  <!-- pana aici -->
+    </section>
+  </section>
 
-  <div class="fantasy-container">
+  <section class="fantasy-container" aria-label="Lista jucatorilor si echipa selectata">
     <app-player-list [players]="filteredPlayers" (dropPlayer)="dropPlayer($event)">
     </app-player-list>
 
     <app-selected-team [selectedPlayers]="selectedPlayers" (dropPlayer)="dropPlayer($event)">
     </app-selected-team>
-  </div>
+  </section>
 
-  <div class="buttons">
+  <footer class="buttons">
     <button class="save-btn" (click)="saveTeam()">Salveaza echipa</button>
-  </div>
-</div>
+  </footer>
+</main>

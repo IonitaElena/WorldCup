@@ -19,12 +19,14 @@
       <strong>
         {{ match.home_score }}
 
-        <span *ngIf="match.home_penalty_score && match.home_penalty_score !== 'null'">
-          ({{ match.home_penalty_score }})
-        </span>
+        @if (match.home_penalty_score && match.home_penalty_score !== 'null') {
+          <span>({{ match.home_penalty_score }})</span>
+        }
       </strong>
 
-      <span class="arrow" *ngIf="isHomeWinner()"> ◀ </span>
+      @if (isHomeWinner()) {
+        <span class="arrow"> ◀ </span>
+      }
     </div>
   </div>
 
@@ -38,12 +40,14 @@
       <strong>
         {{ match.away_score }}
 
-        <span *ngIf="match.away_penalty_score && match.away_penalty_score !== 'null'">
-          ({{ match.away_penalty_score }})
-        </span>
+        @if (match.away_penalty_score && match.away_penalty_score !== 'null') {
+          <span>({{ match.away_penalty_score }})</span>
+        }
       </strong>
 
-      <span class="arrow" *ngIf="isAwayWinner()"> ◀ </span>
+      @if (isAwayWinner()) {
+        <span class="arrow"> ◀ </span>
+      }
     </div>
   </div></mat-card
 >

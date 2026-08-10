@@ -1,19 +1,25 @@
-<div class="stage-block" *ngFor="let stage of groupedMatches">
-  <h2>
-    {{ stage.title }}
-  </h2>
+@for (stage of groupedMatches; track stage.title; let stageIndex = $index) {
+  <section class="stage-block" aria-labelledby="stage-title-{{ stageIndex }}">
+    <header>
+      <h2 id="stage-title-{{ stageIndex }}">
+        {{ stage.title }}
+      </h2>
+    </header>
 
-  <div class="matches-grid">
-    <ng-container *ngFor="let group of stage.groups">
-      <ng-container *ngFor="let match of group.matches">
-        <div class="match-column">
-          <div class="group-name" *ngIf="group.groupName">
-            {{ group.groupName }}
-          </div>
+    <div class="matches-grid">
+      @for (group of stage.groups; track group.groupName || $index) {
+        @for (match of group.matches; track match.id) {
+          <article class="match-column">
+            @if (group.groupName) {
+              <p class="group-name">
+                {{ group.groupName }}
+              </p>
+            }
 
-          <app-match-card [match]="match"> </app-match-card>
-        </div>
-      </ng-container>
-    </ng-container>
-  </div>
-</div>
+            <app-match-card [match]="match"> </app-match-card>
+          </article>
+        }
+      }
+    </div>
+  </section>
+}

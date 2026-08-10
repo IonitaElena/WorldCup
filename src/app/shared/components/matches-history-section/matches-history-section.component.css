@@ -5,6 +5,10 @@
   margin: 0 0 0;
 }
 
+.stage-block {
+  display: block;
+}
+
 .groups-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

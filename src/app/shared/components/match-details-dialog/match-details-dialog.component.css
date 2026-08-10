@@ -30,6 +30,16 @@ p {
   color: #ccc;
 }
 
+ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #ccc;
+}
+
+li {
+  margin: 4px 0;
+}
+
 .info {
   padding-bottom: 30px;
 }

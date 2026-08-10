@@ -1,17 +1,21 @@
-<h2>Echipa mea ({{ selectedPlayers.length }}/11)</h2>
+<section aria-labelledby="selected-team-title">
+  <h2 id="selected-team-title">Echipa mea ({{ selectedPlayers.length }}/11)</h2>
 
-<div
-  cdkDropList
-  id="team"
-  [cdkDropListData]="selectedPlayers"
-  [cdkDropListConnectedTo]="['players']"
-  (cdkDropListDropped)="drop($event)"
->
-  <div *ngFor="let player of selectedPlayers" cdkDrag class="player-card">
-    <img [src]="player.photo" [alt]="player.name" class="player-photo" />
+  <ul
+    cdkDropList
+    id="team"
+    [cdkDropListData]="selectedPlayers"
+    [cdkDropListConnectedTo]="['players']"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for (player of selectedPlayers; track player.id ?? player.name) {
+      <li cdkDrag class="player-card">
+        <img [src]="player.photo" [alt]="player.name" class="player-photo" />
 
-    <div class="player-info">
-      <strong>{{ player.name }}</strong>
-    </div>
-  </div>
-</div>
+        <div class="player-info">
+          <strong>{{ player.name }}</strong>
+        </div>
+      </li>
+    }
+  </ul>
+</section>

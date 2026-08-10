@@ -1,8 +1,13 @@
-<div class="column">
-  <h2>{{ title }}</h2>
+<section class="column" aria-labelledby="knockout-column-title">
+  <header>
+    <h2 id="knockout-column-title">{{ title }}</h2>
+  </header>
 
-  <div class="matches">
-    <app-knockout-match-card *ngFor="let match of matches" [match]="match">
-    </app-knockout-match-card>
-  </div>
-</div>
+  <ol class="matches">
+    @for (match of matches; track match.id) {
+      <li>
+        <app-knockout-match-card [match]="match"></app-knockout-match-card>
+      </li>
+    }
+  </ol>
+</section>

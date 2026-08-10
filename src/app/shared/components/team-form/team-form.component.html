@@ -1,33 +1,45 @@
-<div class="team-form">
-  <h2>Creeaza echipa</h2>
+<form class="team-form">
+  <header>
+    <h2>Creeaza echipa</h2>
+  </header>
 
-  <label>Nume echipa</label>
+  <fieldset>
+    <label for="team-name">Nume echipa</label>
 
-  <input type="text" placeholder="Ex: FC Bucuresti" [(ngModel)]="team.name" />
+    <input
+      id="team-name"
+      name="teamName"
+      type="text"
+      placeholder="Ex: FC Bucuresti"
+      [(ngModel)]="team.name"
+    />
+  </fieldset>
 
-  <label>Sigla echipei</label>
+  <fieldset>
+    <label for="team-logo-input">Sigla echipei</label>
 
-  <label class="upload-btn">
-    Alege sigla
+    <label class="upload-btn" for="team-logo-input">Alege sigla</label>
 
-    <input type="file" accept="image/*" (change)="upload($event)" />
-  </label>
+    <input id="team-logo-input" type="file" accept="image/*" (change)="upload($event)" />
+  </fieldset>
 
-  <div class="logo-preview" *ngIf="team.logo">
-    <img [src]="team.logo" alt="Sigla echipei" />
-  </div>
+  @if (team.logo) {
+    <figure class="logo-preview">
+      <img [src]="team.logo" alt="Sigla echipei" />
+    </figure>
+  }
 
-  <div class="match-interval">
-    <div>
-      <label>Data inceput</label>
+  <section class="match-interval" aria-label="Perioada echipei">
+    <fieldset>
+      <label for="team-start-date">Data inceput</label>
 
-      <input type="date" [(ngModel)]="team.startDate" />
-    </div>
+      <input id="team-start-date" name="teamStartDate" type="date" [(ngModel)]="team.startDate" />
+    </fieldset>
 
-    <div>
-      <label>Data sfarsit</label>
+    <fieldset>
+      <label for="team-end-date">Data sfarsit</label>
 
-      <input type="date" [(ngModel)]="team.endDate" />
-    </div>
-  </div>
-</div>
+      <input id="team-end-date" name="teamEndDate" type="date" [(ngModel)]="team.endDate" />
+    </fieldset>
+  </section>
+</form>

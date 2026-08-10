@@ -1,52 +1,56 @@
-<div class="popup" *ngIf="player">
-  <button class="close-btn" (click)="close.emit()">✕</button>
+@if (player) {
+  <div class="popup">
+    <button class="close-btn" (click)="close.emit()">✕</button>
 
-  <img class="player-photo" [src]="player.photo" [alt]="player.name" />
+    <img class="player-photo" [src]="player.photo" [alt]="player.name" />
 
-  <h2>{{ player.name }}</h2>
+    <h2>{{ player.name }}</h2>
 
-  <div class="details">
-    <p>
-      <b>Post:</b>
-      {{ player.position }}
-    </p>
+    <div class="details">
+      <p>
+        <b>Post:</b>
+        {{ player.position }}
+      </p>
 
-    <p>
-      <b>Numar:</b>
-      {{ player.number }}
-    </p>
+      <p>
+        <b>Numar:</b>
+        {{ player.number }}
+      </p>
 
-    <p>
-      <b>Varsta:</b>
-      {{ player.age }} ani
-    </p>
+      <p>
+        <b>Varsta:</b>
+        {{ player.age }} ani
+      </p>
+    </div>
+    <h3>Statistici sezon</h3>
+
+    @if (player.stats) {
+      <div>
+        <p>
+          Meciuri:
+          {{ player.stats.games.appearences }}
+        </p>
+
+        <p>
+          Goluri:
+          {{ player.stats.goals.total || 0 }}
+        </p>
+
+        <p>
+          Assisturi:
+          {{ player.stats.goals.assists || 0 }}
+        </p>
+
+        <p>
+          Galbene:
+          {{ player.stats.cards.yellow || 0 }}
+        </p>
+
+        <p>
+          Rosii:
+          {{ player.stats.cards.red || 0 }}
+        </p>
+      </div>
+    }
   </div>
-  <h3>Statistici sezon</h3>
-
-  <div *ngIf="player.stats">
-    <p>
-      Meciuri:
-      {{ player.stats.games.appearences }}
-    </p>
-
-    <p>
-      Goluri:
-      {{ player.stats.goals.total || 0 }}
-    </p>
-
-    <p>
-      Assisturi:
-      {{ player.stats.goals.assists || 0 }}
-    </p>
-
-    <p>
-      Galbene:
-      {{ player.stats.cards.yellow || 0 }}
-    </p>
-
-    <p>
-      Rosii:
-      {{ player.stats.cards.red || 0 }}
-    </p>
-  </div>
-</div>
+}

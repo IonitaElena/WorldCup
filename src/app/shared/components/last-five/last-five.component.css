@@ -1,6 +1,13 @@
 .form {
   display: flex;
   gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+  }
 
   mat-icon {
     font-size: 22px;
