@@ -1,0 +1,11 @@
+node_modules
+.angular
+.git
+.gitignore
+.vscode
+README.md
+public/screenshots
+npm-debug.log
+Dockerfile
+nginx.conf
+compose*.yml

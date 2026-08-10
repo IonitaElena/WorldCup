@@ -52,6 +52,8 @@ Prin selectarea unui meci se deschide o fereastra cu informatii suplimentare cum
 - jucatorii care au batut penalty;
 - detalii despre stadionul pe care s-a jucat.
 
+<img src="public/screenshots/bracket.png">
+
 ## Clasamentul grupelor
 
 Aplicatia afiseaza clasamentul fiecarei grupe participante la Campionatul Mondial.
@@ -239,6 +241,27 @@ export const environment = {
 
 ```bash
 npm run build
+```
+
+## Rulare cu Docker
+
+Aplicatia poate fi construita si servita ca imagine Docker prin Nginx, folosind un build multi-stage.
+
+```bash
+docker build -t world-cup-digitalapp .
+docker run --rm -p 8080:80 world-cup-digitalapp
+```
+
+Alternativ, folositi Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+Dupa pornire, aplicatia este disponibila la:
+
+```text
+http://localhost:8080/
 ```
 
 ## Testare
