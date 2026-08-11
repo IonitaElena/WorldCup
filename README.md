@@ -237,31 +237,61 @@ export const environment = {
 
 [API-Football](https://www.api-football.com/)
 
+## Rulare cu Docker
+
+Aplicatia este containerizata si servita prin Nginx folosind Docker si Docker Compose.
+
+### Pornire
+
+Din folderul proiectului:
+
+```bash
+docker compose up -d
+```
+
+După pornire, aplicatia este disponibila la:
+
+```text
+http://localhost:8080/
+```
+
+### Oprire
+
+Pentru a opri aplicatia:
+
+```bash
+docker compose down
+```
+
+### Verificarea containerului
+
+Pentru a verifica daca containerul ruleaza:
+
+```bash
+docker ps
+```
+
+Pentru a vedea logurile containerului:
+
+```bash
+docker logs world-cup-digitalapp-web-1
+```
+
+### Actualizarea aplicatiei după modificari
+
+Daca au fost facute modificari in codul Angular:
+
+```bash
+npm run build
+docker compose up -d --build
+```
+
+Astfel, aplicatia este reconstruita si pornita cu noua versiune.
+
 ## Build pentru productie
 
 ```bash
 npm run build
-```
-
-## Rulare cu Docker
-
-Aplicatia poate fi construita si servita ca imagine Docker prin Nginx, folosind un build multi-stage.
-
-```bash
-docker build -t world-cup-digitalapp .
-docker run --rm -p 8080:80 world-cup-digitalapp
-```
-
-Alternativ, folositi Docker Compose:
-
-```bash
-docker compose up --build
-```
-
-Dupa pornire, aplicatia este disponibila la:
-
-```text
-http://localhost:8080/
 ```
 
 ## Testare
