@@ -1,0 +1,45 @@
+<div class="ranking-card">
+  <div class="section-header">
+    <div>
+      <span class="eyebrow"> PLAYERS </span>
+
+      <h2>Top marcatori</h2>
+    </div>
+
+    <span class="section-icon"> ⚽ </span>
+  </div>
+
+  @if (topScorers.length > 0) {
+    @for (player of topScorers.slice(0, 5); track player.player.id; let i = $index) {
+      <div class="player-row">
+        <div class="rank">
+          {{ i + 1 }}
+        </div>
+
+        @if (player.player.photo) {
+          <img [src]="player.player.photo" [alt]="player.player.name" class="player-photo" />
+        }
+
+        <div class="player-info">
+          <strong>
+            {{ player.player.name }}
+          </strong>
+
+          <span>
+            {{ player.team?.name || '—' }}
+          </span>
+        </div>
+
+        <div class="player-value">
+          <strong>
+            {{ getGoals(player) }}
+          </strong>
+
+          <span> goluri </span>
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="empty-state">Nu exista date pentru marcatori.</div>
+  }
+</div>

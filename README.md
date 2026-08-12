@@ -212,15 +212,15 @@ http://localhost:4200/
 
 ## Configurarea cheii API
 
-Proiectul utilizează un fișier `environment.ts` pentru configurarea cheii API.
+Proiectul utilizeaza un fisier `environment.ts` pentru configurarea cheii API.
 
-1. Copiați fișierul:
+1. Copiați fisierul:
 
 ```text
 src/environments/environment.example.ts
 ```
 
-în
+in
 
 ```text
 src/environments/environment.ts
@@ -249,7 +249,7 @@ Din folderul proiectului:
 docker compose up -d
 ```
 
-După pornire, aplicatia este disponibila la:
+Dupa pornire, aplicatia este disponibila la:
 
 ```text
 http://localhost:8080/
@@ -277,13 +277,12 @@ Pentru a vedea logurile containerului:
 docker logs world-cup-digitalapp-web-1
 ```
 
-### Actualizarea aplicatiei după modificari
+### Actualizarea aplicatiei dupa modificari
 
 Daca au fost facute modificari in codul Angular:
 
 ```bash
-npm run build
-docker compose up -d --build
+docker compose build --no-cache
 ```
 
 Astfel, aplicatia este reconstruita si pornita cu noua versiune.

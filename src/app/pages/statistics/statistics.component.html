@@ -1,0 +1,41 @@
+<div class="statistics-page">
+  <div class="page-header, statistics">
+    <h1>Istoric FIFA</h1>
+
+    <p>Statistici si performante ale jucatorilor de la Campionatul Mondial.</p>
+  </div>
+
+  @if (loading) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Se incarca statisticile...</p>
+    </div>
+  }
+
+  @if (!loading) {
+    <div class="statistics-content">
+      <app-statistics-overview
+        [totalGoals]="totalGoals"
+        [totalMatches]="totalMatches"
+        [totalYellowCards]="totalYellowCards"
+        [totalRedCards]="totalRedCards"
+      >
+      </app-statistics-overview>
+
+      <app-top-scorers [topScorers]="topScorers"> </app-top-scorers>
+
+      <app-top-assists [topAssists]="topAssists"> </app-top-assists>
+
+      <app-statistics-charts
+        [topScorers]="topScorers"
+        [topYellowCards]="topYellowCards"
+        [totalWins]="totalWins"
+        [totalDraws]="totalDraws"
+        [totalLosses]="totalLosses"
+      >
+      </app-statistics-charts>
+
+      <app-cards-ranking [topYellowCards]="topYellowCards"> </app-cards-ranking>
+    </div>
+  }
+</div>

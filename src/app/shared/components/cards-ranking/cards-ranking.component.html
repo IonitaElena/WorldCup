@@ -1,0 +1,71 @@
+<section class="table-card">
+  <div class="section-header">
+    <div>
+      <span class="eyebrow"> DISCIPLINA </span>
+
+      <h2>Top cartonase</h2>
+    </div>
+  </div>
+
+  @if (topYellowCards.length > 0) {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+
+            <th>Jucator</th>
+
+            <th>Echipa</th>
+
+            <th>Galbene</th>
+
+            <th>Rosii</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (player of topYellowCards.slice(0, 10); track player.player.id; let i = $index) {
+            <tr>
+              <td>
+                <span class="table-rank">
+                  {{ i + 1 }}
+                </span>
+              </td>
+
+              <td>
+                <div class="table-player">
+                  @if (player.player.photo) {
+                    <img [src]="player.player.photo" [alt]="player.player.name" />
+                  }
+
+                  <strong>
+                    {{ player.player.name }}
+                  </strong>
+                </div>
+              </td>
+
+              <td>
+                {{ player.team?.name || '—' }}
+              </td>
+
+              <td>
+                <span class="yellow-card">
+                  {{ getYellowCards(player) }}
+                </span>
+              </td>
+
+              <td>
+                <span class="red-card">
+                  {{ getRedCards(player) }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="empty-state">Nu exista date pentru cartonase.</div>
+  }
+</section>

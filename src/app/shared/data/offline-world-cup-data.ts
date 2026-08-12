@@ -101,7 +101,7 @@ export const OFFLINE_MATCHES: Match[] = [
   makeMatch('9', '5', '1', '1', '2', 'sf', '', '15/07/2026 20:00', '4'),
   makeMatch('10', '2', '3', '0', '2', 'sf', '', '14/07/2026 20:00', '4'),
 
-  // Finala mică
+  // Finala mica
   makeMatch('11', '2', '5', '4', '6', 'third', '', '18/07/2026 18:00', '5'),
 
   // Finala

@@ -1,0 +1,65 @@
+<section class="charts-grid">
+  <!-- GOALS -->
+
+  <div class="chart-card large">
+    <div class="section-header">
+      <div>
+        <span class="eyebrow"> ANALIZA </span>
+
+        <h2>Top 10 marcatori</h2>
+      </div>
+
+      <span class="chart-icon"> 📊 </span>
+    </div>
+
+    @if (goalsChartData) {
+      <div class="chart-container">
+        <p-chart type="bar" [data]="goalsChartData" [options]="chartOptions" />
+      </div>
+    } @else {
+      <div class="empty-state">Nu exista date.</div>
+    }
+  </div>
+
+  <!-- CARDS -->
+
+  <div class="chart-card">
+    <div class="section-header">
+      <div>
+        <span class="eyebrow"> DISCIPLINA </span>
+
+        <h2>Cartonase</h2>
+      </div>
+
+      <span class="chart-icon"> 🟨 </span>
+    </div>
+
+    @if (cardsChartData) {
+      <div class="chart-container">
+        <p-chart type="bar" [data]="cardsChartData" [options]="chartOptions" />
+      </div>
+    } @else {
+      <div class="empty-state">Nu exista date.</div>
+    }
+  </div>
+
+  <!-- RESULTS -->
+
+  <div class="chart-card">
+    <div class="section-header">
+      <div>
+        <span class="eyebrow"> REZULTATE </span>
+
+        <h2>Victorii / Egaluri / Infrangeri</h2>
+      </div>
+
+      <span class="chart-icon"> 🏆 </span>
+    </div>
+
+    @if (resultsChartData) {
+      <div class="pie-container">
+        <p-chart type="doughnut" [data]="resultsChartData" [options]="chartOptions" />
+      </div>
+    }
+  </div>
+</section>

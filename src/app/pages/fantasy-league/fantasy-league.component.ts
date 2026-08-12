@@ -165,7 +165,7 @@ export class FantasyLeagueComponent implements OnInit {
 
   search() {
     if (!this.selectedLeague) {
-      alert('Selectează o competiție.');
+      alert('Selecteaza o competitie.');
 
       return;
     }
@@ -178,7 +178,7 @@ export class FantasyLeagueComponent implements OnInit {
 
     localStorage.setItem('fantasy-team', JSON.stringify(this.team));
 
-    alert('Echipa a fost salvată!');
+    alert('Echipa a fost salvata!');
   }
 
   dropPlayer(event: CdkDragDrop<any[]>) {
@@ -187,7 +187,7 @@ export class FantasyLeagueComponent implements OnInit {
       event.previousContainer.id !== 'team' &&
       this.selectedPlayers.length >= 11
     ) {
-      alert('Poți avea maximum 11 jucători.');
+      alert('Poti avea maximum 11 jucatori.');
 
       return;
     }
