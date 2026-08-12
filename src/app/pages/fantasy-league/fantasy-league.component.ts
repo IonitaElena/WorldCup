@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
@@ -24,7 +26,10 @@ import { TeamFormComponent } from '../../shared/components/team-form/team-form.c
   styleUrl: './fantasy-league.component.css',
 })
 export class FantasyLeagueComponent implements OnInit {
-  constructor(private footballService: FantasyFootballService) {}
+  constructor(
+    private footballService: FantasyFootballService,
+    private destroyRef: DestroyRef,
+  ) {}
 
   team: {
     name: string;
@@ -62,6 +67,7 @@ export class FantasyLeagueComponent implements OnInit {
     this.footballService
       .getCountries()
 
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.countries = res.response;
@@ -77,6 +83,7 @@ export class FantasyLeagueComponent implements OnInit {
     this.footballService
       .getLeagues()
 
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.allLeagues = res.response;
@@ -121,23 +128,26 @@ export class FantasyLeagueComponent implements OnInit {
       return;
     }
 
-    this.footballService.getPlayers(this.selectedLeague).subscribe({
-      next: (res) => {
-        console.log(res);
+    this.footballService
+      .getPlayers(this.selectedLeague)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          console.log(res);
 
-        this.players = res.response.map((item: any) => ({
-          id: item.player.id,
-          name: item.player.name,
-          photo: item.player.photo,
-        }));
+          this.players = res.response.map((item: any) => ({
+            id: item.player.id,
+            name: item.player.name,
+            photo: item.player.photo,
+          }));
 
-        this.filteredPlayers = [...this.players];
-      },
+          this.filteredPlayers = [...this.players];
+        },
 
-      error: (err) => {
-        console.log(err);
-      },
-    });
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   filterPlayers() {

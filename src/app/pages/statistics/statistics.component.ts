@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
@@ -15,6 +15,7 @@ import { TopAssistsComponent } from '../../shared/components/top-assists/top-ass
 import { StatisticsChartsComponent } from '../../shared/components/statistics-charts/statistics-charts.component';
 
 import { CardsRankingComponent } from '../../shared/components/cards-ranking/cards-ranking.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-statistics',
@@ -61,6 +62,7 @@ export class StatisticsComponent implements OnInit {
   constructor(
     private statisticsService: StatisticsService,
     private cdr: ChangeDetectorRef,
+    private destroyRef: DestroyRef,
   ) {}
 
   ngOnInit(): void {
@@ -72,37 +74,40 @@ export class StatisticsComponent implements OnInit {
 
     console.log('STATISTICS: request started');
 
-    this.statisticsService.getAll().subscribe({
-      next: (data: any) => {
-        console.log('STATISTICS: API RESPONSE', data);
+    this.statisticsService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: any) => {
+          console.log('STATISTICS: API RESPONSE', data);
 
-        this.topScorers = data.scorers?.response ?? [];
+          this.topScorers = data.scorers?.response ?? [];
 
-        this.topAssists = data.assists?.response ?? [];
+          this.topAssists = data.assists?.response ?? [];
 
-        this.topYellowCards = data.yellowCards?.response ?? [];
+          this.topYellowCards = data.yellowCards?.response ?? [];
 
-        this.topRedCards = data.redCards?.response ?? [];
+          this.topRedCards = data.redCards?.response ?? [];
 
-        const fixtures: Fixture[] = data.fixtures?.response ?? [];
+          const fixtures: Fixture[] = data.fixtures?.response ?? [];
 
-        this.totalMatches = data.fixtures?.results ?? fixtures.length;
+          this.totalMatches = data.fixtures?.results ?? fixtures.length;
 
-        this.calculateOverview(fixtures);
+          this.calculateOverview(fixtures);
 
-        this.loading = false;
+          this.loading = false;
 
-        this.cdr.detectChanges();
-      },
+          this.cdr.detectChanges();
+        },
 
-      error: (error) => {
-        console.error('STATISTICS API ERROR:', error);
+        error: (error) => {
+          console.error('STATISTICS API ERROR:', error);
 
-        this.loading = false;
+          this.loading = false;
 
-        this.cdr.detectChanges();
-      },
-    });
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   calculateOverview(fixtures: Fixture[]): void {

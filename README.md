@@ -122,6 +122,23 @@ Functionalitatile disponibile includ:
 
 <img src="public/screenshots/fantasy.png" width="900">
 
+## Statistics
+
+Utilizatorul poate consulta statistici despre jucatorii si meciurile de la Campionatul Mondial.
+
+Functionalitatile disponibile includ:
+
+- afisarea numarului total de goluri;
+- afisarea numarului total de meciuri;
+- afisarea numarului de cartonase galbene si rosii;
+- afisarea **topului marcatorilor**;
+- afisarea **topului jucatorilor cu assist-uri**;
+- analiza datelor prin intermediul **graficelor**;
+- afisarea distributiei rezultatelor: **victorii, egaluri si infrangeri**;
+- afisarea unui clasament al jucatorilor in functie de cartonase.
+
+<img src="public/screenshots/statistics.png" width="900">
+
 ## Structura principala a proiectului
 
 ```
@@ -173,6 +190,14 @@ src/app/
 - Player List
 - Selected Team
 
+## Statistici
+
+- statistics-overview
+- top-scorers
+- top-assists
+- statistics-charts
+- cards-ranking
+
 ## Tehnologii utilizate
 
 - Angular 22
@@ -214,7 +239,7 @@ http://localhost:4200/
 
 Proiectul utilizeaza un fisier `environment.ts` pentru configurarea cheii API.
 
-1. Copiați fisierul:
+1. Copiati fisierul:
 
 ```text
 src/environments/environment.example.ts
@@ -226,7 +251,7 @@ in
 src/environments/environment.ts
 ```
 
-2. Completați cheia API:
+2. Completati cheia API:
 
 ```ts
 export const environment = {

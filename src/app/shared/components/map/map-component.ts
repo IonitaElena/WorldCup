@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
@@ -21,6 +21,7 @@ import { PlayersService } from '../../../services/players.service';
 import { forkJoin } from 'rxjs';
 import { TeamDetailsComponent } from './team-details/team-details.component';
 import { PlayerDetailsComponent } from './player-details/player-details.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-map-component',
@@ -44,6 +45,7 @@ export class MapComponent implements OnInit {
     private groupsService: GroupsService,
     private playersService: PlayersService,
     private cdr: ChangeDetectorRef,
+    private destroyRef: DestroyRef,
   ) {}
 
   hoveredTeam: any = null;
@@ -84,30 +86,33 @@ export class MapComponent implements OnInit {
       return;
     }
 
-    this.playersService.getPlayerStats(player.id).subscribe({
-      next: (res: any) => {
-        if (!res.response?.length) {
-          console.log('NU ARE STATISTICI');
+    this.playersService
+      .getPlayerStats(player.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: any) => {
+          if (!res.response?.length) {
+            console.log('NU ARE STATISTICI');
 
-          this.playerCache.set(player.id, this.selectedPlayer);
+            this.playerCache.set(player.id, this.selectedPlayer);
 
-          return;
-        }
+            return;
+          }
 
-        const data = {
-          ...player,
-          stats: res.response[0].statistics[0],
-        };
+          const data = {
+            ...player,
+            stats: res.response[0].statistics[0],
+          };
 
-        this.playerCache.set(player.id, data);
-        this.selectedPlayer = data;
-        this.cdr.detectChanges();
-      },
+          this.playerCache.set(player.id, data);
+          this.selectedPlayer = data;
+          this.cdr.detectChanges();
+        },
 
-      error: (err: HttpErrorResponse) => {
-        console.log('PLAYER API ERROR', err);
-      },
-    });
+        error: (err: HttpErrorResponse) => {
+          console.log('PLAYER API ERROR', err);
+        },
+      });
   }
 
   closePlayer() {
@@ -127,45 +132,50 @@ export class MapComponent implements OnInit {
 
     this.cdr.detectChanges();
 
-    this.playersService.getTeam(team.name_en).subscribe({
-      next: (teamApi: any) => {
-        console.log('TEAM API', teamApi);
+    this.playersService
+      .getTeam(team.name_en)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (teamApi: any) => {
+          console.log('TEAM API', teamApi);
 
-        if (!teamApi.response?.length) {
-          console.log('Nu am găsit echipa');
-          return;
-        }
+          if (!teamApi.response?.length) {
+            console.log('Nu am gasit echipa');
+            return;
+          }
 
-        const teamId = teamApi.response[0].team.id;
+          const teamId = teamApi.response[0].team.id;
 
-        console.log('TEAM ID', teamId);
+          console.log('TEAM ID', teamId);
 
-        forkJoin({
-          players: this.playersService.getPlayers(teamId),
-          coach: this.playersService.getCoach(teamId),
-        }).subscribe({
-          next: ({ players, coach }) => {
-            this.teamDetails = {
-              team,
-              players,
-              coach,
-            };
+          forkJoin({
+            players: this.playersService.getPlayers(teamId),
+            coach: this.playersService.getCoach(teamId),
+          })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+              next: ({ players, coach }) => {
+                this.teamDetails = {
+                  team,
+                  players,
+                  coach,
+                };
 
-            this.cdr.detectChanges();
+                this.cdr.detectChanges();
 
-            console.log('TEAM DETAILS', this.teamDetails);
-          },
+                console.log('TEAM DETAILS', this.teamDetails);
+              },
 
-          error: (err) => {
-            console.log('PLAYERS/COACH ERROR', err);
-          },
-        });
-      },
+              error: (err) => {
+                console.log('PLAYERS/COACH ERROR', err);
+              },
+            });
+        },
 
-      error: (err: any) => {
-        console.log('TEAM ERROR', err);
-      },
-    });
+        error: (err: any) => {
+          console.log('TEAM ERROR', err);
+        },
+      });
   }
 
   mapStyle: StyleSpecification = {
@@ -194,19 +204,22 @@ export class MapComponent implements OnInit {
 
   teams: any[] = [];
   ngOnInit() {
-    this.groupsService.getTeams().subscribe((teams: any[]) => {
-      this.teams = teams.map((team: any) => {
-        const position = countryCoordinates[team.name_en];
+    this.groupsService
+      .getTeams()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((teams: any[]) => {
+        this.teams = teams.map((team: any) => {
+          const position = countryCoordinates[team.name_en];
 
-        return {
-          ...team,
-          lat: position?.lat,
-          lng: position?.lng,
-          code: team.iso2?.toLowerCase(),
-        };
+          return {
+            ...team,
+            lat: position?.lat,
+            lng: position?.lng,
+            code: team.iso2?.toLowerCase(),
+          };
+        });
+
+        this.cdr.detectChanges();
       });
-
-      this.cdr.detectChanges();
-    });
   }
 }

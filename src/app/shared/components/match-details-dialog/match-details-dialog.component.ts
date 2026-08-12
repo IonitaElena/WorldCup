@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Match } from '../../../models/match';
 import { StadiumService } from '../../../services/stadium.service';
 import { Stadium } from '../../../models/stadium';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-match-details-dialog',
@@ -22,6 +23,8 @@ export class MatchDetailsDialogComponent implements OnInit {
     private stadiumService: StadiumService,
 
     private cdr: ChangeDetectorRef,
+
+    private destroyRef: DestroyRef,
   ) {}
 
   ngOnInit() {
@@ -34,13 +37,16 @@ export class MatchDetailsDialogComponent implements OnInit {
       return;
     }
 
-    this.stadiumService.getStadiums().subscribe((data) => {
-      this.stadium = data.stadiums.find((s) => Number(s.id) === Number(this.match.stadium_id));
+    this.stadiumService
+      .getStadiums()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => {
+        this.stadium = data.stadiums.find((s) => Number(s.id) === Number(this.match.stadium_id));
 
-      console.log('STADION:', this.stadium);
+        console.log('STADION:', this.stadium);
 
-      this.cdr.detectChanges();
-    });
+        this.cdr.detectChanges();
+      });
   }
 
   parsePlayers(data?: string): string[] {

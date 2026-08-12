@@ -1,5 +1,6 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, DestroyRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { GroupTableComponent } from '../../shared/components/group-table/group-table.component';
 import { Group } from '../../models/group';
@@ -19,21 +20,25 @@ export class ClasamentGrupeComponent implements OnInit {
   constructor(
     private groupsService: GroupsService,
     private cdr: ChangeDetectorRef,
+    private destroyRef: DestroyRef,
   ) {}
 
   ngOnInit() {
-    this.groupsService.getGroups().subscribe({
-      next: (data) => {
-        console.log('DATA:', data);
+    this.groupsService
+      .getGroups()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data) => {
+          console.log('DATA:', data);
 
-        this.groups = [...data];
+          this.groups = [...data];
 
-        this.cdr.detectChanges();
-      },
+          this.cdr.detectChanges();
+        },
 
-      error: (err) => {
-        console.error(err);
-      },
-    });
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 }
