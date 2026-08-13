@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,8 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FootballService } from '../../services/football.service';
 import { GamesResponse } from '../../models/games-response';
 import { MatchesHistorySectionComponent } from '../../shared/components/matches-history-section/matches-history-section.component';
-
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-istoric-meciuri',
@@ -21,14 +19,11 @@ export class IstoricMeciuriComponent implements OnInit {
     games: [],
   };
 
-  constructor(
-    private football: FootballService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  constructor(private football: FootballService) {}
 
-  async ngOnInit(): Promise<void> {
-    this.gamesResponse = await firstValueFrom(this.football.getMatches());
-
-    this.cdr.detectChanges();
+  ngOnInit(): void {
+    this.football.getMatches().subscribe((response) => {
+      this.gamesResponse = response;
+    });
   }
 }

@@ -3,11 +3,14 @@
     <header>
       <h1>Faza eliminatorie</h1>
     </header>
-    <!-- Varianta 1 -->
-    <app-organization-bracket [matches]="matches"> </app-organization-bracket>
-    <!-- Varianta 2 -->
-    <app-bracket [matches]="matches"> </app-bracket>
-    <!-- Varianta 3 -->
-    <!-- <app-knockout-bracket [matches]="matches"> </app-knockout-bracket> -->
+
+    @if (matches$ | async; as matches) {
+      <app-organization-bracket [matches]="matches"> </app-organization-bracket>
+
+      <app-bracket [matches]="matches"> </app-bracket>
+
+      <!-- Varianta 3 -->
+      <!-- <app-knockout-bracket [matches]="matches"></app-knockout-bracket> -->
+    }
   </section>
 </main>
