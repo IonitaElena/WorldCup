@@ -49,7 +49,7 @@ export class KnockoutMatchCardComponent implements OnChanges {
   }
 
   getFlag(team: string): string {
-    const flags: any = {
+    const flags: Record<string, string> = {
       Canada: 'ca',
       Mexico: 'mx',
       USA: 'us',

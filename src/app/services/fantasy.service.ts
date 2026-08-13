@@ -9,6 +9,10 @@ import {
   OFFLINE_LEAGUES,
 } from '../shared/data/offline-world-cup-data';
 
+import { CountriesResponse } from '../models/country.models';
+import { LeaguesResponse } from '../models/league.models';
+import { PlayersResponse } from '../models/fantasy-player.models';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -18,7 +22,7 @@ export class FantasyFootballService {
 
   constructor(private http: HttpClient) {}
 
-  private headers() {
+  private headers(): HttpHeaders {
     return new HttpHeaders({
       'x-apisports-key': this.apiKey,
     });
@@ -26,37 +30,25 @@ export class FantasyFootballService {
 
   getCountries() {
     return this.http
-      .get<any>(
-        `${this.url}/countries`,
-
-        {
-          headers: this.headers(),
-        },
-      )
+      .get<CountriesResponse>(`${this.url}/countries`, {
+        headers: this.headers(),
+      })
       .pipe(catchError(() => of({ response: OFFLINE_COUNTRIES })));
   }
 
   getLeagues() {
     return this.http
-      .get<any>(
-        `${this.url}/leagues`,
-
-        {
-          headers: this.headers(),
-        },
-      )
+      .get<LeaguesResponse>(`${this.url}/leagues`, {
+        headers: this.headers(),
+      })
       .pipe(catchError(() => of({ response: OFFLINE_LEAGUES })));
   }
 
   getPlayers(league: number) {
     return this.http
-      .get<any>(
-        `${this.url}/players?league=${league}&season=2024`,
-
-        {
-          headers: this.headers(),
-        },
-      )
+      .get<PlayersResponse>(`${this.url}/players?league=${league}&season=2024`, {
+        headers: this.headers(),
+      })
       .pipe(catchError(() => of({ response: OFFLINE_FANTASY_PLAYERS })));
   }
 }

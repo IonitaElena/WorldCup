@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TeamForm } from '../../../models/team-form.model';
 
 @Component({
   selector: 'app-team-form',
@@ -10,13 +11,17 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './team-form.component.css',
 })
 export class TeamFormComponent {
-  @Input() team: any;
+  @Input({ required: true })
+  team!: TeamForm;
 
-  upload(event: any) {
-    const file = event.target.files[0];
+  upload(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
 
-    if (file) {
-      this.team.logo = URL.createObjectURL(file);
+    if (!file) {
+      return;
     }
+
+    this.team.logo = file;
   }
 }

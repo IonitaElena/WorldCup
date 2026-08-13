@@ -33,3 +33,13 @@ export interface Match {
   home_team_label?: string;
   away_team_label?: string;
 }
+
+export interface MatchGroup {
+  groupName: string;
+  matches: Match[];
+}
+
+export interface MatchHistoryGroup {
+  title: string;
+  groups: MatchGroup[];
+}

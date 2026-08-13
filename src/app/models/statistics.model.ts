@@ -67,3 +67,26 @@ export interface Fixture {
     away?: number;
   };
 }
+
+export interface StatisticsResponse {
+  scorers: {
+    response: PlayerStatistic[];
+  };
+
+  assists: {
+    response: PlayerStatistic[];
+  };
+
+  yellowCards: {
+    response: PlayerStatistic[];
+  };
+
+  redCards: {
+    response: PlayerStatistic[];
+  };
+
+  fixtures: {
+    response: Fixture[];
+    results: number;
+  };
+}

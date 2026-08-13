@@ -49,10 +49,10 @@
         <label for="league">Competitie</label>
 
         <select id="league" [(ngModel)]="selectedLeague" name="selectedLeague">
-          <option value="">Alege liga</option>
+          <option [ngValue]="null">Alege liga</option>
 
           @for (l of filteredLeagues; track l.league.id) {
-            <option [value]="l.league.id">
+            <option [ngValue]="l">
               {{ l.league.name }}
               -
               {{ l.country.name }}

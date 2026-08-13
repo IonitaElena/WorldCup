@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './player-details.component.css',
 })
 export class PlayerDetailsComponent {
-  @Input() player: any;
+  @Input() player: Player | null = null;
 
   @Output() close = new EventEmitter<void>();
 

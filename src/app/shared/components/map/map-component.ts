@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, DestroyRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+
 import {
   MapComponent as MglMap,
   MarkerComponent as MglMarker,
@@ -8,24 +9,33 @@ import {
   ControlComponent as MglControl,
   NavigationControlDirective,
 } from '@maplibre/ngx-maplibre-gl';
+
 import { StyleSpecification } from 'maplibre-gl';
+
+import { forkJoin } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { GroupsService } from '../../../services/groups.service';
+import { PlayersService } from '../../../services/players.service';
+
 import { countryCoordinates } from '../../data/country-coordinates';
+
 import {
   getOfflineCoachResponse,
   getOfflinePlayerStatsResponse,
   getOfflineSquadResponse,
 } from '../../data/offline-world-cup-data';
+
 import { TeamMarkerComponent } from './team-marker/team-marker.component';
-import { PlayersService } from '../../../services/players.service';
-import { forkJoin } from 'rxjs';
 import { TeamDetailsComponent } from './team-details/team-details.component';
 import { PlayerDetailsComponent } from './player-details/player-details.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { MapTeam, MapPlayer, TeamDetails } from '../../../models/map-model';
 
 @Component({
   selector: 'app-map-component',
   standalone: true,
+
   imports: [
     CommonModule,
     MglMap,
@@ -37,6 +47,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TeamDetailsComponent,
     PlayerDetailsComponent,
   ],
+
   templateUrl: './map-component.html',
   styleUrl: './map-component.css',
 })
@@ -48,82 +59,60 @@ export class MapComponent implements OnInit {
     private destroyRef: DestroyRef,
   ) {}
 
-  hoveredTeam: any = null;
-  selectedTeam: any = null;
-  teamDetails: any = null;
-  selectedPlayer: any = null;
-  teamCache = new Map<string, any>();
-  playerCache = new Map<number, any>();
+  hoveredTeam: MapTeam | null = null;
 
-  showTooltip(team: any) {
+  selectedTeam: MapTeam | null = null;
+
+  teamDetails: TeamDetails | null = null;
+
+  selectedPlayer: MapPlayer | null = null;
+
+  teamCache = new Map<string, MapTeam>();
+
+  playerCache = new Map<number, MapPlayer>();
+
+  teams: MapTeam[] = [];
+
+  center: [number, number] = [15, 50];
+
+  zoom: [number] = [2];
+
+  mapStyle: StyleSpecification = {
+    version: 8,
+
+    sources: {
+      osm: {
+        type: 'raster',
+        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+        tileSize: 256,
+      },
+    },
+
+    layers: [
+      {
+        id: 'osm',
+        type: 'raster',
+        source: 'osm',
+      },
+    ],
+  };
+
+  showTooltip(team: MapTeam): void {
     this.hoveredTeam = team;
   }
 
-  hideTooltip() {
+  hideTooltip(): void {
     this.hoveredTeam = null;
   }
-  closeDetails() {
+
+  closeDetails(): void {
     this.teamDetails = null;
   }
 
-  openPlayer(player: any) {
-    console.log('CLICK PLAYER', player);
+  openTeam(team: MapTeam): void {
+    const offlineTeamId = Number(team.id);
 
-    const offlineStats = getOfflinePlayerStatsResponse().response[0].statistics[0];
-
-    this.selectedPlayer = {
-      ...player,
-      stats: offlineStats,
-    };
-
-    this.cdr.detectChanges();
-
-    if (this.playerCache.has(player.id)) {
-      this.selectedPlayer = this.playerCache.get(player.id);
-
-      this.cdr.detectChanges();
-
-      return;
-    }
-
-    this.playersService
-      .getPlayerStats(player.id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (res: any) => {
-          if (!res.response?.length) {
-            console.log('NU ARE STATISTICI');
-
-            this.playerCache.set(player.id, this.selectedPlayer);
-
-            return;
-          }
-
-          const data = {
-            ...player,
-            stats: res.response[0].statistics[0],
-          };
-
-          this.playerCache.set(player.id, data);
-          this.selectedPlayer = data;
-          this.cdr.detectChanges();
-        },
-
-        error: (err: HttpErrorResponse) => {
-          console.log('PLAYER API ERROR', err);
-        },
-      });
-  }
-
-  closePlayer() {
-    this.selectedPlayer = null;
-  }
-
-  openTeam(team: any) {
-    // console.log('CLICK TEAM', team);
-
-    const offlineTeamId = Number(team?.id ?? team?.team_id ?? 1);
-
+    // Afisam imediat datele offline
     this.teamDetails = {
       team,
       players: getOfflineSquadResponse(offlineTeamId),
@@ -132,14 +121,15 @@ export class MapComponent implements OnInit {
 
     this.cdr.detectChanges();
 
+    // Incercam sa luam datele reale
     this.playersService
       .getTeam(team.name_en)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (teamApi: any) => {
+        next: (teamApi: TeamApiResponse) => {
           console.log('TEAM API', teamApi);
 
-          if (!teamApi.response?.length) {
+          if (!teamApi.response.length) {
             console.log('Nu am gasit echipa');
             return;
           }
@@ -166,58 +156,114 @@ export class MapComponent implements OnInit {
                 console.log('TEAM DETAILS', this.teamDetails);
               },
 
-              error: (err) => {
+              error: (err: unknown) => {
                 console.log('PLAYERS/COACH ERROR', err);
               },
             });
         },
 
-        error: (err: any) => {
+        error: (err: HttpErrorResponse) => {
           console.log('TEAM ERROR', err);
         },
       });
   }
 
-  mapStyle: StyleSpecification = {
-    version: 8,
+  openPlayer(player: MapPlayer): void {
+    console.log('CLICK PLAYER', player);
 
-    sources: {
-      osm: {
-        type: 'raster',
-        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-        tileSize: 256,
-      },
-    },
+    const offlineStats = getOfflinePlayerStatsResponse().response[0].statistics[0];
 
-    layers: [
-      {
-        id: 'osm',
-        type: 'raster',
-        source: 'osm',
-      },
-    ],
-  };
+    this.selectedPlayer = {
+      ...player,
+      stats: offlineStats,
+    };
 
-  center: [number, number] = [15, 50];
+    this.cdr.detectChanges();
 
-  zoom: [number] = [2];
+    const cachedPlayer = this.playerCache.get(player.id);
 
-  teams: any[] = [];
-  ngOnInit() {
+    if (cachedPlayer) {
+      this.selectedPlayer = cachedPlayer;
+
+      this.cdr.detectChanges();
+
+      return;
+    }
+
+    this.playersService
+      .getPlayerStats(player.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: PlayerStatsResponse) => {
+          if (!res.response.length) {
+            console.log('NU ARE STATISTICI');
+
+            if (this.selectedPlayer) {
+              this.playerCache.set(player.id, this.selectedPlayer);
+            }
+
+            return;
+          }
+
+          const stats = res.response[0].statistics?.[0];
+
+          if (!stats) {
+            console.log('NU AM GASIT STATISTICI PENTRU JUCATOR');
+
+            if (this.selectedPlayer) {
+              this.playerCache.set(player.id, this.selectedPlayer);
+            }
+
+            return;
+          }
+
+          const data: MapPlayer = {
+            ...player,
+            stats,
+          };
+
+          this.playerCache.set(player.id, data);
+
+          this.selectedPlayer = data;
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err: HttpErrorResponse) => {
+          console.log('PLAYER API ERROR', err);
+        },
+      });
+  }
+
+  closePlayer(): void {
+    this.selectedPlayer = null;
+  }
+
+  ngOnInit(): void {
     this.groupsService
       .getTeams()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((teams: any[]) => {
-        this.teams = teams.map((team: any) => {
-          const position = countryCoordinates[team.name_en];
+      .subscribe((teams) => {
+        this.teams = teams
+          .map((team) => {
+            const position = countryCoordinates[team.name_en];
 
-          return {
-            ...team,
-            lat: position?.lat,
-            lng: position?.lng,
-            code: team.iso2?.toLowerCase(),
-          };
-        });
+            if (!position) {
+              return null;
+            }
+
+            const mapTeam: MapTeam = {
+              ...team,
+
+              lat: position.lat,
+              lng: position.lng,
+
+              code: team.iso2?.toLowerCase(),
+            };
+
+            return mapTeam;
+          })
+          .filter((team): team is MapTeam => team !== null);
 
         this.cdr.detectChanges();
       });

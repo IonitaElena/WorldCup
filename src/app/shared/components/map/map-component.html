@@ -22,7 +22,7 @@
 </mgl-map>
 
 @if (teamDetails) {
-  <aside aria-label="Detalii echipă">
+  <aside aria-label="Detalii echipa">
     <app-team-details
       [data]="teamDetails"
       (close)="closeDetails()"
@@ -33,7 +33,7 @@
 }
 
 @if (selectedPlayer) {
-  <aside aria-label="Detalii jucător">
+  <aside aria-label="Detalii jucator">
     <app-player-details [player]="selectedPlayer" (close)="selectedPlayer = null">
     </app-player-details>
   </aside>

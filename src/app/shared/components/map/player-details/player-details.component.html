@@ -9,46 +9,50 @@
     <div class="details">
       <p>
         <b>Post:</b>
-        {{ player.position }}
+        {{ player.position || '-' }}
       </p>
 
       <p>
         <b>Numar:</b>
-        {{ player.number }}
+        {{ player.number || '-' }}
       </p>
 
       <p>
         <b>Varsta:</b>
-        {{ player.age }} ani
+        {{ player.age || '-' }}
+        @if (player.age) {
+          ani
+        }
       </p>
     </div>
+
     <h3>Statistici sezon</h3>
 
     @if (player.stats) {
       <div>
         <p>
           Meciuri:
-          {{ player.stats.games.appearences }}
+          {{ player.stats.games?.appearences || 0 }}
         </p>
 
         <p>
           Goluri:
-          {{ player.stats.goals.total || 0 }}
+          {{ player.stats.goals?.total || 0 }}
         </p>
 
         <p>
           Assisturi:
-          {{ player.stats.goals.assists || 0 }}
+          {{ player.stats.goals?.assists || 0 }}
         </p>
 
         <p>
           Galbene:
-          {{ player.stats.cards.yellow || 0 }}
+          {{ player.stats.cards?.yellow || 0 }}
         </p>
 
         <p>
           Rosii:
-          {{ player.stats.cards.red || 0 }}
+          {{ player.stats.cards?.red || 0 }}
         </p>
       </div>
     }

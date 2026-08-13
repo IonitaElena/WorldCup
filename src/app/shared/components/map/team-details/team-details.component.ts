@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MapPlayer, TeamDetails } from '../../../../models/map-model';
+
 @Component({
   selector: 'app-team-details',
   standalone: true,
@@ -9,17 +11,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './team-details.component.css',
 })
 export class TeamDetailsComponent {
-  @Input() data: any;
-  @Output() playerClick = new EventEmitter<any>();
+  @Input() data: TeamDetails | null = null;
+
+  @Output() playerClick = new EventEmitter<MapPlayer>();
+
   @Output() close = new EventEmitter<void>();
 
-  openPlayer(player: any) {
-    // console.log('PLAYER CLICK', player);
-
+  openPlayer(player: MapPlayer): void {
     this.playerClick.emit(player);
   }
 
-  closeWindow() {
+  closeWindow(): void {
     this.close.emit();
   }
 }

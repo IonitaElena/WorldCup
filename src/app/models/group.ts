@@ -25,3 +25,14 @@ export interface TeamStanding {
 }
 
 export type MatchResult = 'WIN' | 'DRAW' | 'LOSE' | 'NONE';
+
+export interface Team {
+  id: string | number;
+  name_en: string;
+  iso2?: string;
+  flag?: string;
+}
+
+export interface TeamsResponse {
+  teams: Team[];
+}

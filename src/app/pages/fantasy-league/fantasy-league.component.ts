@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { DestroyRef } from '@angular/core';
+import { Component, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,6 +10,10 @@ import { PlayerListComponent } from '../../shared/components/player-list/player-
 import { SelectedTeamComponent } from '../../shared/components/selected-team/selected-team.component';
 import { TeamFormComponent } from '../../shared/components/team-form/team-form.component';
 
+import { Country } from '../../models/country.models';
+import { League } from '../../models/league.models';
+import { FantasyPlayer } from '../../models/fantasy-player.models';
+
 @Component({
   selector: 'app-fantasy-league',
   standalone: true,
@@ -21,7 +24,6 @@ import { TeamFormComponent } from '../../shared/components/team-form/team-form.c
     SelectedTeamComponent,
     TeamFormComponent,
   ],
-
   templateUrl: './fantasy-league.component.html',
   styleUrl: './fantasy-league.component.css',
 })
@@ -34,9 +36,9 @@ export class FantasyLeagueComponent implements OnInit {
   team: {
     name: string;
     logo: File | null;
-    startDate: '';
-    endDate: '';
-    players: any[];
+    startDate: string;
+    endDate: string;
+    players: FantasyPlayer[];
   } = {
     name: '',
     logo: null,
@@ -45,74 +47,70 @@ export class FantasyLeagueComponent implements OnInit {
     players: [],
   };
 
-  countries: any[] = [];
-  allLeagues: any[] = [];
-  filteredLeagues: any[] = [];
+  countries: Country[] = [];
+  allLeagues: League[] = [];
+  filteredLeagues: League[] = [];
+
   selectedCountry = '';
-  selectedLeague: any = null;
+  selectedLeague: League | null = null;
   searchLeague = '';
-  players: any[] = [];
-  selectedPlayers: any[] = [];
+
+  players: FantasyPlayer[] = [];
+  selectedPlayers: FantasyPlayer[] = [];
+  filteredPlayers: FantasyPlayer[] = [];
+
   selectedType = '';
   searchPlayer = '';
-  filteredPlayers: any[] = [];
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCountries();
-
     this.loadLeagues();
   }
 
-  loadCountries() {
+  loadCountries(): void {
     this.footballService
       .getCountries()
-
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.countries = res.response;
         },
-
         error: (err) => {
           console.log(err);
         },
       });
   }
 
-  loadLeagues() {
+  loadLeagues(): void {
     this.footballService
       .getLeagues()
-
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.allLeagues = res.response;
-
           this.filteredLeagues = res.response;
         },
-
         error: (err) => {
           console.log(err);
         },
       });
   }
 
-  countryChange() {
+  countryChange(): void {
     if (!this.selectedCountry) {
       this.filteredLeagues = this.allLeagues;
-
       return;
     }
 
-    this.filteredLeagues = this.allLeagues.filter((item: any) => {
+    this.filteredLeagues = this.allLeagues.filter((item) => {
       return item.country.name === this.selectedCountry;
     });
   }
 
-  filterLeague() {
-    const text = this.searchLeague ? this.searchLeague.toLowerCase() : '';
+  filterLeague(): void {
+    const text = this.searchLeague.toLowerCase();
 
-    this.filteredLeagues = this.allLeagues.filter((item: any) => {
+    this.filteredLeagues = this.allLeagues.filter((item) => {
       const countryOk = !this.selectedCountry || item.country.name === this.selectedCountry;
 
       const typeOk = !this.selectedType || item.league.type === this.selectedType;
@@ -123,19 +121,17 @@ export class FantasyLeagueComponent implements OnInit {
     });
   }
 
-  leagueChange() {
+  leagueChange(): void {
     if (!this.selectedLeague) {
       return;
     }
 
     this.footballService
-      .getPlayers(this.selectedLeague)
+      .getPlayers(this.selectedLeague.league.id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          console.log(res);
-
-          this.players = res.response.map((item: any) => ({
+          this.players = res.response.map((item) => ({
             id: item.player.id,
             name: item.player.name,
             photo: item.player.photo,
@@ -143,14 +139,13 @@ export class FantasyLeagueComponent implements OnInit {
 
           this.filteredPlayers = [...this.players];
         },
-
         error: (err) => {
           console.log(err);
         },
       });
   }
 
-  filterPlayers() {
+  filterPlayers(): void {
     const search = this.searchPlayer.toLowerCase().trim();
 
     if (!search) {
@@ -163,27 +158,27 @@ export class FantasyLeagueComponent implements OnInit {
     );
   }
 
-  onSearchPlayerChange(event: Event | string) {
+  onSearchPlayerChange(event: Event | string): void {
     if (typeof event === 'string') {
       this.searchPlayer = event;
     } else {
       const target = event.target as HTMLInputElement | null;
       this.searchPlayer = target?.value ?? '';
     }
+
     this.filterPlayers();
   }
 
-  search() {
+  search(): void {
     if (!this.selectedLeague) {
       alert('Selecteaza o competitie.');
-
       return;
     }
 
     this.leagueChange();
   }
 
-  saveTeam() {
+  saveTeam(): void {
     this.team.players = this.selectedPlayers;
 
     localStorage.setItem('fantasy-team', JSON.stringify(this.team));
@@ -191,14 +186,13 @@ export class FantasyLeagueComponent implements OnInit {
     alert('Echipa a fost salvata!');
   }
 
-  dropPlayer(event: CdkDragDrop<any[]>) {
+  dropPlayer(event: CdkDragDrop<FantasyPlayer[]>): void {
     if (
       event.container.id === 'team' &&
       event.previousContainer.id !== 'team' &&
       this.selectedPlayers.length >= 11
     ) {
       alert('Poti avea maximum 11 jucatori.');
-
       return;
     }
 

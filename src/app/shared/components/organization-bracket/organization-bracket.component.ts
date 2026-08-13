@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import { OrganizationChart } from 'primeng/organizationchart';
 import { TreeNode } from 'primeng/api';
 
 import { Match } from '../../../models/match';
-import { CommonModule } from '@angular/common';
 import { KnockoutMatchCardComponent } from '../knockout-match-card/knockout-match-card.component';
 
 @Component({
@@ -13,16 +14,17 @@ import { KnockoutMatchCardComponent } from '../knockout-match-card/knockout-matc
   templateUrl: './organization-bracket.component.html',
   styleUrl: './organization-bracket.component.css',
 })
-export class OrganizationBracketComponent {
-  @Input()
-  matches: Match[] = [];
+export class OrganizationBracketComponent implements OnChanges {
+  @Input() matches: Match[] = [];
 
   data: TreeNode<Match>[] = [];
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     if (this.matches.length) {
       this.data = this.convertBracket();
       console.log('TREE', this.data);
+    } else {
+      this.data = [];
     }
   }
 
@@ -33,10 +35,13 @@ export class OrganizationBracketComponent {
     const sf = this.matches.filter((x) => x.type === 'sf');
     const final = this.matches.find((x) => x.type === 'final');
 
+    if (!final) {
+      return [];
+    }
+
     return [
       {
-        data: final!,
-
+        data: final,
         expanded: true,
 
         children: sf.map((semi) => {
@@ -47,18 +52,22 @@ export class OrganizationBracketComponent {
           return {
             data: semi,
 
-            children: [this.buildNode(qfHome, r16, r32), this.buildNode(qfAway, r16, r32)],
+            children: [this.buildNode(qfHome, r16, r32), this.buildNode(qfAway, r16, r32)].filter(
+              (node): node is TreeNode<Match> => node !== null,
+            ),
           };
         }),
       },
     ];
   }
 
-  buildNode(match: Match | undefined, previous: Match[], firstRound: Match[]): TreeNode<Match> {
+  buildNode(
+    match: Match | undefined,
+    previous: Match[],
+    firstRound: Match[],
+  ): TreeNode<Match> | null {
     if (!match) {
-      return {
-        data: undefined as any,
-      };
+      return null;
     }
 
     const homePrevious = this.findWinnerMatch(match.home_team_label, previous);
@@ -70,29 +79,51 @@ export class OrganizationBracketComponent {
 
       const r32Away = this.findWinnerMatch(match.away_team_label, firstRound);
 
+      const children: TreeNode<Match>[] = [];
+
+      if (r32Home) {
+        children.push({
+          data: r32Home,
+        });
+      }
+
+      if (r32Away) {
+        children.push({
+          data: r32Away,
+        });
+      }
+
       return {
         data: match,
-
-        children: [
-          {
-            data: r32Home,
-          },
-
-          {
-            data: r32Away,
-          },
-        ],
+        children,
       };
+    }
+
+    const children: TreeNode<Match>[] = [];
+
+    const homeNode = this.buildNode(
+      homePrevious,
+      previous === firstRound ? [] : firstRound,
+      firstRound,
+    );
+
+    const awayNode = this.buildNode(
+      awayPrevious,
+      previous === firstRound ? [] : firstRound,
+      firstRound,
+    );
+
+    if (homeNode) {
+      children.push(homeNode);
+    }
+
+    if (awayNode) {
+      children.push(awayNode);
     }
 
     return {
       data: match,
-
-      children: [
-        this.buildNode(homePrevious, previous === firstRound ? [] : firstRound, firstRound),
-
-        this.buildNode(awayPrevious, previous === firstRound ? [] : firstRound, firstRound),
-      ].filter((x) => x.data),
+      children,
     };
   }
 

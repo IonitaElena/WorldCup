@@ -4,5 +4,5 @@ export interface Player {
   photo: string;
   logo: string | null;
   matchInterval: string;
-  players: any[];
+  players: string[];
 }

@@ -1,25 +1,18 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { ChartModule } from 'primeng/chart';
+import { ChartData, ChartOptions } from 'chart.js';
 
 import { PlayerStatistic } from '../../../models/statistics.model';
 
 @Component({
   selector: 'app-statistics-charts',
-
   standalone: true,
-
   imports: [ChartModule],
-
   templateUrl: './statistics-charts.component.html',
-
   styleUrl: './statistics-charts.component.css',
 })
 export class StatisticsChartsComponent implements OnChanges {
-  // ==============================
-  // INPUTS
-  // ==============================
-
   @Input()
   topScorers: PlayerStatistic[] = [];
 
@@ -35,17 +28,22 @@ export class StatisticsChartsComponent implements OnChanges {
   @Input()
   totalLosses = 0;
 
-  // ==============================
-  // CHART DATA
-  // ==============================
+  goalsChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [],
+  };
 
-  goalsChartData: any = null;
+  cardsChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [],
+  };
 
-  cardsChartData: any = null;
+  resultsChartData: ChartData<'doughnut'> = {
+    labels: [],
+    datasets: [],
+  };
 
-  resultsChartData: any = null;
-
-  chartOptions: any = {};
+  chartOptions: ChartOptions = {};
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -64,49 +62,32 @@ export class StatisticsChartsComponent implements OnChanges {
   }
 
   initializeCharts(): void {
-    // ==============================
-    // GOALS
-    // ==============================
-
     const scorers = this.topScorers.slice(0, 10);
 
     this.goalsChartData = {
       labels: scorers.map((player) => player.player.name),
-
       datasets: [
         {
           label: 'Goluri',
-
           data: scorers.map((player) => player.statistics?.[0]?.goals?.total ?? 0),
         },
       ],
     };
 
-    // ==============================
-    // CARDS
-    // ==============================
-
     const cards = this.topYellowCards.slice(0, 10);
 
     this.cardsChartData = {
       labels: cards.map((player) => player.player.name),
-
       datasets: [
         {
           label: 'Cartonase galbene',
-
           data: cards.map((player) => player.statistics?.[0]?.cards?.yellow ?? 0),
         },
       ],
     };
 
-    // ==============================
-    // RESULTS
-    // ==============================
-
     this.resultsChartData = {
       labels: ['Victorii', 'Egaluri', 'Infrangeri'],
-
       datasets: [
         {
           data: [this.totalWins, this.totalDraws, this.totalLosses],
@@ -114,13 +95,8 @@ export class StatisticsChartsComponent implements OnChanges {
       ],
     };
 
-    // ==============================
-    // OPTIONS
-    // ==============================
-
     this.chartOptions = {
       responsive: true,
-
       maintainAspectRatio: false,
 
       plugins: {

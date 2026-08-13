@@ -5,11 +5,20 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 
+import { Fixture, PlayerStatistic } from '../models/statistics.model';
+
+interface StatisticsApiResponse<T> {
+  response: T[];
+  results: number;
+  errors?: unknown[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class StatisticsService {
   private readonly url = 'https://v3.football.api-sports.io';
+
   private readonly apiKey = environment.apiSportsKey;
 
   // FIFA World Cup
@@ -26,11 +35,7 @@ export class StatisticsService {
     });
   }
 
-  // ==============================
-  // TOP SCORERS
-  // ==============================
-
-  getTopScorers(): Observable<any> {
+  getTopScorers(): Observable<StatisticsApiResponse<PlayerStatistic>> {
     const url = `${this.url}/players/topscorers`;
 
     console.log(`REQUEST: ${url}?league=${this.league}&season=${this.season}`);
@@ -38,7 +43,7 @@ export class StatisticsService {
     console.log('API KEY:', this.apiKey ? 'EXISTS' : 'MISSING');
 
     return this.http
-      .get<any>(url, {
+      .get<StatisticsApiResponse<PlayerStatistic>>(url, {
         headers: this.headers(),
         params: {
           league: this.league,
@@ -46,7 +51,7 @@ export class StatisticsService {
         },
       })
       .pipe(
-        catchError((error) => {
+        catchError((error: unknown) => {
           console.error('TOP SCORERS ERROR:', error);
 
           return of({
@@ -58,13 +63,9 @@ export class StatisticsService {
       );
   }
 
-  // ==============================
-  // TOP ASSISTS
-  // ==============================
-
-  getTopAssists(): Observable<any> {
+  getTopAssists(): Observable<StatisticsApiResponse<PlayerStatistic>> {
     return this.http
-      .get<any>(`${this.url}/players/topassists`, {
+      .get<StatisticsApiResponse<PlayerStatistic>>(`${this.url}/players/topassists`, {
         headers: this.headers(),
         params: {
           league: this.league,
@@ -72,7 +73,7 @@ export class StatisticsService {
         },
       })
       .pipe(
-        catchError((error) => {
+        catchError((error: unknown) => {
           console.error('TOP ASSISTS ERROR:', error);
 
           return of({
@@ -84,13 +85,9 @@ export class StatisticsService {
       );
   }
 
-  // ==============================
-  // TOP YELLOW CARDS
-  // ==============================
-
-  getTopYellowCards(): Observable<any> {
+  getTopYellowCards(): Observable<StatisticsApiResponse<PlayerStatistic>> {
     return this.http
-      .get<any>(`${this.url}/players/topyellowcards`, {
+      .get<StatisticsApiResponse<PlayerStatistic>>(`${this.url}/players/topyellowcards`, {
         headers: this.headers(),
         params: {
           league: this.league,
@@ -98,7 +95,7 @@ export class StatisticsService {
         },
       })
       .pipe(
-        catchError((error) => {
+        catchError((error: unknown) => {
           console.error('TOP YELLOW CARDS ERROR:', error);
 
           return of({
@@ -110,13 +107,9 @@ export class StatisticsService {
       );
   }
 
-  // ==============================
-  // TOP RED CARDS
-  // ==============================
-
-  getTopRedCards(): Observable<any> {
+  getTopRedCards(): Observable<StatisticsApiResponse<PlayerStatistic>> {
     return this.http
-      .get<any>(`${this.url}/players/topredcards`, {
+      .get<StatisticsApiResponse<PlayerStatistic>>(`${this.url}/players/topredcards`, {
         headers: this.headers(),
         params: {
           league: this.league,
@@ -124,7 +117,7 @@ export class StatisticsService {
         },
       })
       .pipe(
-        catchError((error) => {
+        catchError((error: unknown) => {
           console.error('TOP RED CARDS ERROR:', error);
 
           return of({
@@ -136,13 +129,9 @@ export class StatisticsService {
       );
   }
 
-  // ==============================
-  // FIXTURES
-  // ==============================
-
-  getFixtures(): Observable<any> {
+  getFixtures(): Observable<StatisticsApiResponse<Fixture>> {
     return this.http
-      .get<any>(`${this.url}/fixtures`, {
+      .get<StatisticsApiResponse<Fixture>>(`${this.url}/fixtures`, {
         headers: this.headers(),
         params: {
           league: this.league,
@@ -150,7 +139,7 @@ export class StatisticsService {
         },
       })
       .pipe(
-        catchError((error) => {
+        catchError((error: unknown) => {
           console.error('FIXTURES ERROR:', error);
 
           return of({
@@ -161,10 +150,6 @@ export class StatisticsService {
         }),
       );
   }
-
-  // ==============================
-  // ALL STATISTICS
-  // ==============================
 
   getAll() {
     return forkJoin({

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, of, shareReplay } from 'rxjs';
+import { catchError, Observable, of, shareReplay } from 'rxjs';
+
 import { environment } from '../environments/environment';
 
 import {
@@ -9,6 +10,78 @@ import {
   getOfflineSquadResponse,
   getOfflineTeamResponse,
 } from '../shared/data/offline-world-cup-data';
+
+interface TeamResponse {
+  response: TeamResponseItem[];
+  __source?: 'offline';
+}
+
+interface TeamResponseItem {
+  team: {
+    id: number;
+    name: string;
+    name_en?: string;
+  };
+}
+
+interface SquadResponse {
+  response: SquadResponseItem[];
+  __source?: 'offline';
+}
+
+interface SquadResponseItem {
+  team: {
+    id: number;
+    name: string;
+  };
+  players: SquadPlayer[];
+}
+
+interface SquadPlayer {
+  id: number;
+  name: string;
+  photo?: string;
+  number?: number;
+  position?: string;
+  age?: number;
+}
+
+interface CoachResponse {
+  response: Coach[];
+  __source?: 'offline';
+}
+
+interface Coach {
+  name: string;
+  photo?: string;
+  age?: number;
+  nationality?: string;
+}
+
+interface PlayerStatsResponse {
+  response: PlayerStats[];
+  __source?: 'offline';
+}
+
+interface PlayerStats {
+  statistics: PlayerStatistics[];
+}
+
+interface PlayerStatistics {
+  games?: {
+    appearences?: number;
+  };
+
+  goals?: {
+    total?: number;
+    assists?: number;
+  };
+
+  cards?: {
+    yellow?: number;
+    red?: number;
+  };
+}
 
 @Injectable({
   providedIn: 'root',
@@ -20,31 +93,49 @@ export class PlayersService {
     'x-apisports-key': environment.apiSportsKey,
   });
 
-  private teamsCache = new Map<string, any>();
-  private playersCache = new Map<number, any>();
-  private coachCache = new Map<number, any>();
-  private playerStatsCache = new Map<number, any>();
+  private teamsCache = new Map<string, Observable<TeamResponse>>();
+
+  private playersCache = new Map<number, Observable<SquadResponse>>();
+
+  private coachCache = new Map<number, Observable<CoachResponse>>();
+
+  private playerStatsCache = new Map<number, Observable<PlayerStatsResponse>>();
 
   constructor(private http: HttpClient) {}
-  getTeam(name: string) {
+
+  getTeam(name: string): Observable<TeamResponse> {
     return this.http
-      .get(`${this.baseUrl}/teams?search=${name}`, {
-        headers: this.headers,
-      })
-      .pipe(catchError(() => of({ ...getOfflineTeamResponse(name), __source: 'offline' })));
-  }
-
-  getPlayers(teamId: number) {
-    if (this.playersCache.has(teamId)) {
-      return this.playersCache.get(teamId);
-    }
-
-    const request = this.http
-      .get(`${this.baseUrl}/players/squads?team=${teamId}`, {
+      .get<TeamResponse>(`${this.baseUrl}/teams?search=${name}`, {
         headers: this.headers,
       })
       .pipe(
-        catchError(() => of({ ...getOfflineSquadResponse(teamId), __source: 'offline' })),
+        catchError(() =>
+          of({
+            ...getOfflineTeamResponse(name),
+            __source: 'offline' as const,
+          }),
+        ),
+      );
+  }
+
+  getPlayers(teamId: number): Observable<SquadResponse> {
+    const cached = this.playersCache.get(teamId);
+
+    if (cached) {
+      return cached;
+    }
+
+    const request = this.http
+      .get<SquadResponse>(`${this.baseUrl}/players/squads?team=${teamId}`, {
+        headers: this.headers,
+      })
+      .pipe(
+        catchError(() =>
+          of({
+            ...getOfflineSquadResponse(teamId),
+            __source: 'offline' as const,
+          }),
+        ),
         shareReplay(1),
       );
 
@@ -53,17 +144,24 @@ export class PlayersService {
     return request;
   }
 
-  getCoach(teamId: number) {
-    if (this.coachCache.has(teamId)) {
-      return this.coachCache.get(teamId);
+  getCoach(teamId: number): Observable<CoachResponse> {
+    const cached = this.coachCache.get(teamId);
+
+    if (cached) {
+      return cached;
     }
 
     const request = this.http
-      .get(`${this.baseUrl}/coachs?team=${teamId}`, {
+      .get<CoachResponse>(`${this.baseUrl}/coachs?team=${teamId}`, {
         headers: this.headers,
       })
       .pipe(
-        catchError(() => of({ ...getOfflineCoachResponse(), __source: 'offline' })),
+        catchError(() =>
+          of({
+            ...getOfflineCoachResponse(),
+            __source: 'offline' as const,
+          }),
+        ),
         shareReplay(1),
       );
 
@@ -72,17 +170,24 @@ export class PlayersService {
     return request;
   }
 
-  getPlayerStats(playerId: number) {
-    if (this.playerStatsCache.has(playerId)) {
-      return this.playerStatsCache.get(playerId);
+  getPlayerStats(playerId: number): Observable<PlayerStatsResponse> {
+    const cached = this.playerStatsCache.get(playerId);
+
+    if (cached) {
+      return cached;
     }
 
     const request = this.http
-      .get(`${this.baseUrl}/players?id=${playerId}&season=2024`, {
+      .get<PlayerStatsResponse>(`${this.baseUrl}/players?id=${playerId}&season=2024`, {
         headers: this.headers,
       })
       .pipe(
-        catchError(() => of({ ...getOfflinePlayerStatsResponse(), __source: 'offline' })),
+        catchError(() =>
+          of({
+            ...getOfflinePlayerStatsResponse(),
+            __source: 'offline' as const,
+          }),
+        ),
         shareReplay(1),
       );
 

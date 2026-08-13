@@ -1,4 +1,7 @@
 import { Component, Input } from '@angular/core';
+
+import { MapTeam } from '../../../../models/map-model';
+
 @Component({
   selector: 'app-team-tooltip',
   standalone: true,
@@ -7,5 +10,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './team-tooltip.component.css',
 })
 export class TeamTooltipComponent {
-  @Input() team!: any;
+  @Input() team!: MapTeam;
 }

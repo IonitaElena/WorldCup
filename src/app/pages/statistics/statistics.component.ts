@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { StatisticsService } from '../../services/statistics.service';
 
-import { Fixture, PlayerStatistic } from '../../models/statistics.model';
+import { Fixture, PlayerStatistic, StatisticsResponse } from '../../models/statistics.model';
 
 import { StatisticsOverviewComponent } from '../../shared/components/statistics-overview/statistics-overview.component';
 
@@ -78,7 +78,7 @@ export class StatisticsComponent implements OnInit {
       .getAll()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (data: any) => {
+        next: (data: StatisticsResponse) => {
           console.log('STATISTICS: API RESPONSE', data);
 
           this.topScorers = data.scorers?.response ?? [];

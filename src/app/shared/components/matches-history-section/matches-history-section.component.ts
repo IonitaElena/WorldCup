@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { Match, MatchHistoryGroup, MatchGroup } from '../../../models/match';
 import { MatchCardComponent } from '../match-card/match-card.component';
-import { Match } from '../../../models/match';
 
 @Component({
   selector: 'app-matches-history-section',
@@ -13,22 +14,22 @@ import { Match } from '../../../models/match';
 export class MatchesHistorySectionComponent implements OnChanges {
   @Input() matches: Match[] = [];
 
-  groupedMatches: any[] = [];
+  groupedMatches: MatchHistoryGroup[] = [];
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.groupMatches();
   }
 
-  groupMatches() {
-    this.matches.sort((a, b) => {
+  groupMatches(): void {
+    const days: Record<string, MatchHistoryGroup> = {};
+
+    const sortedMatches = [...this.matches].sort((a, b) => {
       return (
         this.getRomanianDate(a.local_date).getTime() - this.getRomanianDate(b.local_date).getTime()
       );
     });
 
-    const days: any = {};
-
-    this.matches.forEach((match) => {
+    sortedMatches.forEach((match) => {
       const dayTitle =
         match.type === 'group'
           ? `Faza grupelor · ${this.formatDay(match.local_date)}`
@@ -37,7 +38,7 @@ export class MatchesHistorySectionComponent implements OnChanges {
       if (!days[dayTitle]) {
         days[dayTitle] = {
           title: dayTitle,
-          groups: {},
+          groups: [],
         };
       }
 
@@ -45,42 +46,49 @@ export class MatchesHistorySectionComponent implements OnChanges {
 
       const groupKey = groupName || 'default';
 
-      if (!days[dayTitle].groups[groupKey]) {
-        days[dayTitle].groups[groupKey] = {
+      let group = days[dayTitle].groups.find((item) => item.groupName === groupKey);
+
+      if (!group) {
+        group = {
           groupName,
           matches: [],
         };
+
+        days[dayTitle].groups.push(group);
       }
 
-      days[dayTitle].groups[groupKey].matches.push(match);
+      group.matches.push(match);
     });
 
-    this.groupedMatches = Object.values(days).map((day: any) => ({
-      title: day.title,
-      groups: Object.values(day.groups),
-    }));
+    this.groupedMatches = Object.values(days);
   }
 
-  getStageTitle(type: string) {
+  getStageTitle(type: string): string {
     switch (type) {
       case 'r32':
         return 'Turul 2';
+
       case 'r16':
         return 'Optimi de finala';
+
       case 'qf':
         return 'Sferturi de finala';
+
       case 'sf':
         return 'Semifinale';
+
       case 'third':
         return 'Finala mica';
+
       case 'final':
         return 'Finala';
+
       default:
         return '';
     }
   }
 
-  getRomanianDate(dateString: string) {
+  getRomanianDate(dateString: string): Date {
     const [datePart, timePart] = dateString.split(' ');
 
     const [month, day, year] = datePart.split('/').map(Number);
@@ -93,9 +101,12 @@ export class MatchesHistorySectionComponent implements OnChanges {
     return date;
   }
 
-  formatDay(dateString: string) {
+  formatDay(dateString: string): string {
     const date = this.getRomanianDate(dateString);
 
-    return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}`;
+    return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}`;
   }
 }

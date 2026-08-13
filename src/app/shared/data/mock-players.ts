@@ -37,7 +37,7 @@ export const MOCK_PLAYERS = [
 
   {
     id: 5,
-    name: 'Radu Drăgușin',
+    name: 'Radu Dragusin',
     team: 'Romania',
     position: 'Defender',
     age: 23,
