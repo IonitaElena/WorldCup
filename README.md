@@ -147,6 +147,7 @@ src/app/
   shared/         # componente reutilizabile
   services/       # servicii pentru date si logica aplicatiei
   models/         # modele TypeScript
+  data/           # date pentru atunci cand API uirle sunt offline
 ```
 
 # Componente principale
@@ -192,11 +193,11 @@ src/app/
 
 ## Statistici
 
-- statistics-overview
-- top-scorers
-- top-assists
-- statistics-charts
-- cards-ranking
+- Statistics Overview
+- Top Scorers
+- Top Assists
+- Statistics Charts
+- Cards Ranking
 
 ## Tehnologii utilizate
 
