@@ -45,13 +45,9 @@ export class GroupsService {
 
               return {
                 ...team,
-
                 teamName: teamInfo?.name_en ?? `Team ${team.team_id}`,
-
                 countryCode: this.getCountryCode(teamInfo),
-
                 flag: teamInfo?.flag,
-
                 lastFive: this.getLastFive(team.team_id, games.games),
               };
             }),
@@ -84,9 +80,7 @@ export class GroupsService {
 
     return teamMatches.map((match): MatchResult => {
       const home = match.home_team_id === teamId;
-
       const scored = Number(home ? match.home_score : match.away_score);
-
       const conceded = Number(home ? match.away_score : match.home_score);
 
       if (scored > conceded) {
@@ -96,7 +90,6 @@ export class GroupsService {
       if (scored < conceded) {
         return 'LOSE';
       }
-
       return 'DRAW';
     });
   }

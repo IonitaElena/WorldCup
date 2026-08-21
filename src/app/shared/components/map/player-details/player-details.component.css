@@ -1,55 +1,37 @@
 .popup {
   position: absolute;
-
-  top: 80px;
-  right: 30px;
-
+  top: 145px;
+  right: 60px;
   width: 300px;
-
   background: white;
-
   border-radius: 20px;
-
   padding: 25px;
-
   z-index: 9999;
-
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-
   text-align: center;
 }
 
 .close-btn {
   position: absolute;
-
   right: 12px;
   top: 12px;
-
   width: 35px;
   height: 35px;
-
   border: none;
-
   border-radius: 50%;
-
   cursor: pointer;
-
   font-size: 20px;
 }
 
 .player-photo {
   width: 140px;
-
   height: 140px;
-
   object-fit: contain;
-
   margin-top: 10px;
 }
 
 .details {
   text-align: left;
-
   margin-top: 20px;
 }
 

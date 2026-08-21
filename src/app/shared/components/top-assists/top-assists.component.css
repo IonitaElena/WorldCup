@@ -1,43 +1,31 @@
 .ranking-card {
   padding: 24px;
-
   background: #ffffff;
-
   border: 1px solid #e7e9ef;
-
   border-radius: 18px;
-
   box-shadow: 0 5px 20px rgba(20, 30, 50, 0.04);
 }
 
 .section-header {
   display: flex;
-
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 20px;
 }
 
 .section-header h2 {
   margin: 0;
-
   font-size: 19px;
   font-weight: 750;
 }
 
 .eyebrow {
   display: block;
-
   margin-bottom: 6px;
-
   font-size: 11px;
   font-weight: 700;
-
   letter-spacing: 1.5px;
-
   text-transform: uppercase;
-
   color: #7c8497;
 }
 
@@ -47,13 +35,9 @@
 
 .player-row {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
   padding: 12px 0;
-
   border-bottom: 1px solid #eef0f4;
 }
 
@@ -63,80 +47,59 @@
 
 .rank {
   width: 28px;
-
   flex-shrink: 0;
-
   font-weight: 800;
-
   color: #8a92a3;
 }
 
 .player-photo {
   width: 42px;
   height: 42px;
-
   flex-shrink: 0;
-
   object-fit: cover;
-
   border-radius: 50%;
-
   background: #eef0f4;
 }
 
 .player-info {
   flex: 1;
-
   min-width: 0;
 }
 
 .player-info strong {
   display: block;
-
   font-size: 14px;
-
   white-space: nowrap;
-
   overflow: hidden;
-
   text-overflow: ellipsis;
 }
 
 .player-info span {
   display: block;
-
   margin-top: 3px;
-
   color: #8a92a3;
-
   font-size: 12px;
 }
 
 .player-value {
   text-align: right;
-
   flex-shrink: 0;
 }
 
 .player-value strong {
   display: block;
-
   font-size: 18px;
 }
 
 .player-value span {
   font-size: 11px;
-
   color: #8a92a3;
 }
 
 .empty-state {
   padding: 30px 10px;
-
   text-align: center;
-
   color: #8a92a3;
-
   font-size: 14px;
 }
 

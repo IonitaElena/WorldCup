@@ -2,8 +2,7 @@
   <header>
     <h1>Fantasy League</h1>
   </header>
-
-  <app-team-form [team]="team"></app-team-form>
+  <app-team-form [team]="team" (teamChange)="saveTeamState()"> </app-team-form>
 
   <section class="filters" aria-labelledby="filters-title">
     <header class="filter-header">

@@ -30,12 +30,9 @@ export class ClasamentGrupeComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log('DATA:', data);
-
           this.groups = [...data];
-
           this.cdr.detectChanges();
         },
-
         error: (err) => {
           console.error(err);
         },

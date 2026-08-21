@@ -6,6 +6,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { FantasyFootballService } from '../../services/fantasy.service';
+import { FantasyCacheService } from '../../services/fantasy-cache.service';
+
 import { PlayerListComponent } from '../../shared/components/player-list/player-list.component';
 import { SelectedTeamComponent } from '../../shared/components/selected-team/selected-team.component';
 import { TeamFormComponent } from '../../shared/components/team-form/team-form.component';
@@ -30,6 +32,7 @@ import { FantasyPlayer } from '../../models/fantasy-player.models';
 export class FantasyLeagueComponent implements OnInit {
   constructor(
     private footballService: FantasyFootballService,
+    private fantasyCache: FantasyCacheService,
     private destroyRef: DestroyRef,
   ) {}
 
@@ -50,21 +53,52 @@ export class FantasyLeagueComponent implements OnInit {
   countries: Country[] = [];
   allLeagues: League[] = [];
   filteredLeagues: League[] = [];
-
   selectedCountry = '';
   selectedLeague: League | null = null;
   searchLeague = '';
-
   players: FantasyPlayer[] = [];
   selectedPlayers: FantasyPlayer[] = [];
   filteredPlayers: FantasyPlayer[] = [];
-
   selectedType = '';
   searchPlayer = '';
 
   ngOnInit(): void {
+    this.restoreState();
     this.loadCountries();
     this.loadLeagues();
+  }
+
+  private restoreState(): void {
+    this.team = {
+      name: this.fantasyCache.team.name,
+      logo: this.fantasyCache.team.logo,
+      startDate: this.fantasyCache.team.startDate,
+      endDate: this.fantasyCache.team.endDate,
+      players: [...this.fantasyCache.team.players],
+    };
+
+    this.selectedCountry = this.fantasyCache.selectedCountry;
+    this.selectedLeague = this.fantasyCache.selectedLeague;
+    this.searchLeague = this.fantasyCache.searchLeague;
+    this.selectedType = this.fantasyCache.selectedType;
+    this.searchPlayer = this.fantasyCache.searchPlayer;
+    this.players = [...this.fantasyCache.players];
+    this.selectedPlayers = [...this.fantasyCache.selectedPlayers];
+    this.filteredPlayers = [...this.fantasyCache.filteredPlayers];
+
+    if (this.players.length) {
+      this.filterPlayers();
+    }
+  }
+
+  saveTeamState(): void {
+    this.fantasyCache.team = {
+      name: this.team.name,
+      logo: this.team.logo,
+      startDate: this.team.startDate,
+      endDate: this.team.endDate,
+      players: [...this.selectedPlayers],
+    };
   }
 
   loadCountries(): void {
@@ -76,7 +110,7 @@ export class FantasyLeagueComponent implements OnInit {
           this.countries = res.response;
         },
         error: (err) => {
-          console.log(err);
+          console.log('COUNTRIES ERROR', err);
         },
       });
   }
@@ -88,41 +122,47 @@ export class FantasyLeagueComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.allLeagues = res.response;
-          this.filteredLeagues = res.response;
+          this.filterLeague();
         },
         error: (err) => {
-          console.log(err);
+          console.log('LEAGUES ERROR', err);
         },
       });
   }
 
   countryChange(): void {
-    if (!this.selectedCountry) {
-      this.filteredLeagues = this.allLeagues;
-      return;
-    }
-
-    this.filteredLeagues = this.allLeagues.filter((item) => {
-      return item.country.name === this.selectedCountry;
-    });
+    this.fantasyCache.selectedCountry = this.selectedCountry;
+    this.filterLeague();
   }
 
   filterLeague(): void {
-    const text = this.searchLeague.toLowerCase();
+    const text = this.searchLeague.toLowerCase().trim();
 
     this.filteredLeagues = this.allLeagues.filter((item) => {
       const countryOk = !this.selectedCountry || item.country.name === this.selectedCountry;
-
       const typeOk = !this.selectedType || item.league.type === this.selectedType;
-
       const nameOk = !text || item.league.name.toLowerCase().includes(text);
-
       return countryOk && typeOk && nameOk;
     });
+
+    this.fantasyCache.selectedCountry = this.selectedCountry;
+    this.fantasyCache.selectedType = this.selectedType;
+    this.fantasyCache.searchLeague = this.searchLeague;
   }
 
   leagueChange(): void {
     if (!this.selectedLeague) {
+      return;
+    }
+
+    this.fantasyCache.selectedLeague = this.selectedLeague;
+
+    if (
+      this.players.length &&
+      this.fantasyCache.selectedLeague?.league.id === this.selectedLeague.league.id
+    ) {
+      this.filterPlayers();
+
       return;
     }
 
@@ -138,11 +178,23 @@ export class FantasyLeagueComponent implements OnInit {
           }));
 
           this.filteredPlayers = [...this.players];
+          this.fantasyCache.players = [...this.players];
+          this.fantasyCache.filteredPlayers = [...this.filteredPlayers];
         },
         error: (err) => {
-          console.log(err);
+          console.log('PLAYERS ERROR', err);
         },
       });
+  }
+
+  search(): void {
+    if (!this.selectedLeague) {
+      alert('Selecteaza o competitie.');
+      return;
+    }
+
+    this.fantasyCache.selectedLeague = this.selectedLeague;
+    this.leagueChange();
   }
 
   filterPlayers(): void {
@@ -150,12 +202,14 @@ export class FantasyLeagueComponent implements OnInit {
 
     if (!search) {
       this.filteredPlayers = [...this.players];
-      return;
+    } else {
+      this.filteredPlayers = this.players.filter((player) =>
+        player.name.toLowerCase().includes(search),
+      );
     }
 
-    this.filteredPlayers = this.players.filter((player) =>
-      player.name.toLowerCase().includes(search),
-    );
+    this.fantasyCache.searchPlayer = this.searchPlayer;
+    this.fantasyCache.filteredPlayers = [...this.filteredPlayers];
   }
 
   onSearchPlayerChange(event: Event | string): void {
@@ -165,25 +219,7 @@ export class FantasyLeagueComponent implements OnInit {
       const target = event.target as HTMLInputElement | null;
       this.searchPlayer = target?.value ?? '';
     }
-
     this.filterPlayers();
-  }
-
-  search(): void {
-    if (!this.selectedLeague) {
-      alert('Selecteaza o competitie.');
-      return;
-    }
-
-    this.leagueChange();
-  }
-
-  saveTeam(): void {
-    this.team.players = this.selectedPlayers;
-
-    localStorage.setItem('fantasy-team', JSON.stringify(this.team));
-
-    alert('Echipa a fost salvata!');
   }
 
   dropPlayer(event: CdkDragDrop<FantasyPlayer[]>): void {
@@ -206,5 +242,24 @@ export class FantasyLeagueComponent implements OnInit {
         event.currentIndex,
       );
     }
+
+    this.fantasyCache.selectedPlayers = [...this.selectedPlayers];
+    this.team.players = [...this.selectedPlayers];
+    this.fantasyCache.team = { ...this.team };
+  }
+
+  saveTeam(): void {
+    this.team.players = [...this.selectedPlayers];
+    this.fantasyCache.team = { ...this.team };
+    localStorage.setItem(
+      'fantasy-team',
+      JSON.stringify({
+        name: this.team.name,
+        startDate: this.team.startDate,
+        endDate: this.team.endDate,
+        players: this.selectedPlayers,
+      }),
+    );
+    alert('Echipa a fost salvata!');
   }
 }

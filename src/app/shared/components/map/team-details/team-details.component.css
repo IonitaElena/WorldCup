@@ -1,10 +1,9 @@
 .window {
   position: absolute;
-  top: 20px;
+  top: 90px;
   right: 20px;
-  width: 360px;
-  max-height: 85vh;
-  overflow-y: auto;
+  width: 370px;
+  max-height: 90vh;
   background: #fff;
   border-radius: 18px;
   padding: 22px;
@@ -46,24 +45,6 @@ h3 {
 }
 
 .players {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 350px;
-  overflow-y: auto;
-}
-
-.player {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px;
-  border-radius: 12px;
-  background: #f8fafc;
-  transition: 0.2s;
-}
-
-.players {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -79,15 +60,21 @@ h3 {
 }
 
 .player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
+  padding: 10px;
   border: none;
+  border-radius: 12px;
+  background: #f8fafc;
   text-align: left;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .player:hover {
   background: #eef4ff;
-  transform: translateX(3px);
 }
 
 .player img {

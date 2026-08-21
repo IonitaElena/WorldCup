@@ -12,20 +12,21 @@
       type="text"
       placeholder="Ex: FC Bucuresti"
       [(ngModel)]="team.name"
+      (ngModelChange)="onTeamChange()"
     />
   </fieldset>
 
   <fieldset>
     <label for="team-logo-input">Sigla echipei</label>
 
-    <label class="upload-btn" for="team-logo-input">Alege sigla</label>
+    <label class="upload-btn" for="team-logo-input"> Alege sigla </label>
 
     <input id="team-logo-input" type="file" accept="image/*" (change)="upload($event)" />
   </fieldset>
 
-  @if (team.logo) {
+  @if (logoPreview) {
     <figure class="logo-preview">
-      <img [src]="team.logo" alt="Sigla echipei" />
+      <img [src]="logoPreview" alt="Sigla echipei" />
     </figure>
   }
 
@@ -33,13 +34,25 @@
     <fieldset>
       <label for="team-start-date">Data inceput</label>
 
-      <input id="team-start-date" name="teamStartDate" type="date" [(ngModel)]="team.startDate" />
+      <input
+        id="team-start-date"
+        name="teamStartDate"
+        type="date"
+        [(ngModel)]="team.startDate"
+        (ngModelChange)="onTeamChange()"
+      />
     </fieldset>
 
     <fieldset>
       <label for="team-end-date">Data sfarsit</label>
 
-      <input id="team-end-date" name="teamEndDate" type="date" [(ngModel)]="team.endDate" />
+      <input
+        id="team-end-date"
+        name="teamEndDate"
+        type="date"
+        [(ngModel)]="team.endDate"
+        (ngModelChange)="onTeamChange()"
+      />
     </fieldset>
   </section>
 </form>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { environment } from '../environments/environment';
 
 import {
@@ -28,7 +28,7 @@ export class FantasyFootballService {
     });
   }
 
-  getCountries() {
+  getCountries(): Observable<CountriesResponse> {
     return this.http
       .get<CountriesResponse>(`${this.url}/countries`, {
         headers: this.headers(),
@@ -36,7 +36,7 @@ export class FantasyFootballService {
       .pipe(catchError(() => of({ response: OFFLINE_COUNTRIES })));
   }
 
-  getLeagues() {
+  getLeagues(): Observable<LeaguesResponse> {
     return this.http
       .get<LeaguesResponse>(`${this.url}/leagues`, {
         headers: this.headers(),
@@ -44,7 +44,7 @@ export class FantasyFootballService {
       .pipe(catchError(() => of({ response: OFFLINE_LEAGUES })));
   }
 
-  getPlayers(league: number) {
+  getPlayers(league: number): Observable<PlayersResponse> {
     return this.http
       .get<PlayersResponse>(`${this.url}/players?league=${league}&season=2024`, {
         headers: this.headers(),
